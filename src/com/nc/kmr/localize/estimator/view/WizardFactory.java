@@ -1,8 +1,6 @@
 package com.nc.kmr.localize.estimator.view;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 import java.util.Map;

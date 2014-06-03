@@ -126,6 +126,7 @@ public class XLSFileProcessor implements FileProcessor {
 	@Override
 	public List<String> process() throws InvalidInputException {
 		if(ready && sheet != null && range != null) {
+			content = new ArrayList<String>();
 			processRange();
 		}
 		

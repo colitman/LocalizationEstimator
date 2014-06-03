@@ -16,6 +16,6 @@ public class ExcelUtils {
 	private static int letter2Int(String col) {
 		String abc = "abcdefghijklmnopqrstuvwxyz";
 		
-		return abc.indexOf(col);
+		return abc.indexOf(col.toLowerCase());
 	}
 }

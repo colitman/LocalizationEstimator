@@ -4,14 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+
+import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 
 public class LOECalculationOptionListener implements ActionListener {
 
 	private JComponent[] components;
+	private AnalyzerBuilder builder;
 
-	public LOECalculationOptionListener(JComponent... components) {
+	public LOECalculationOptionListener(AnalyzerBuilder builder, JComponent... components) {
+		this.builder = builder;
 		this.components = components;
 	}
 
@@ -20,6 +22,8 @@ public class LOECalculationOptionListener implements ActionListener {
 		for(JComponent component:components){
 			component.setEnabled(!component.isEnabled());
 		}
+		
+		builder.setCalculateLOE(!builder.isCalculateLOE());
 	}
 
 }

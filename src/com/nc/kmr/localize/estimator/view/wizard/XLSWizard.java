@@ -20,9 +20,10 @@ import javax.swing.border.BevelBorder;
 import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.event.AnalyzeButtonListener;
 import com.nc.kmr.localize.estimator.event.LOECalculationOptionListener;
+import com.nc.kmr.localize.estimator.event.PerformanceInputListener;
 import com.nc.kmr.localize.estimator.event.RangeInputCaretListener;
 import com.nc.kmr.localize.estimator.event.SheetListSelectionListener;
-import com.nc.kmr.localize.estimator.impl.analyze.Analyzer;
+import com.nc.kmr.localize.estimator.event.UniquesOptionActionListener;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 import com.nc.kmr.localize.estimator.view.Wizard;
 
@@ -32,7 +33,6 @@ public class XLSWizard extends JFrame implements Wizard {
 	
 	private FileProcessor processor;
 	private AnalyzerBuilder builder;
-	private Analyzer analyzer;
 	private JList<String> sheetList;
 	private JTextField rangeInput;
 	private JCheckBox showUniques;
@@ -62,6 +62,7 @@ public class XLSWizard extends JFrame implements Wizard {
 
 	@Override
 	public void run() {
+		builder = new AnalyzerBuilder();
 		createGUI();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("MS Excel file estimator wizard");
@@ -91,16 +92,18 @@ public class XLSWizard extends JFrame implements Wizard {
 		optionsChoicePanel = new JPanel();
 		optionsChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Options"));
 		showUniques = new JCheckBox("Show uniques statistic");
+		showUniques.addActionListener(new UniquesOptionActionListener(builder));
 		calculateLOE = new JCheckBox("Calculate LOE");
 		performanceInput = new JTextField();
 		performanceUnits = new JLabel("symbols per day");
 		performanceInput.setEnabled(false);
 		performanceUnits.setEnabled(false);
-		calculateLOE.addActionListener(new LOECalculationOptionListener(performanceInput, performanceUnits));
+		performanceInput.addCaretListener(new PerformanceInputListener(builder));
+		calculateLOE.addActionListener(new LOECalculationOptionListener(builder, performanceInput, performanceUnits));
 		
 		buttonsPanel = new JPanel();
 		analyzeButton = new JButton("Analyze");
-		analyzeButton.addActionListener(new AnalyzeButtonListener(analyzer, showUniques, calculateLOE, performanceInput));
+		analyzeButton.addActionListener(new AnalyzeButtonListener(builder, processor));
 		
 		layoutComponents();
 	}
