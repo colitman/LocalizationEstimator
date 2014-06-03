@@ -87,10 +87,12 @@ public class XLSFileProcessor implements FileProcessor {
 	public boolean setScope(String scope) {
 		
 		if(scope == null) {
+			range = null;
 			return false;
 		}
 		
 		if(!scope.matches("([a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+;?)+")) {
+			range = null;
 			return false;
 		}
 		
@@ -125,21 +127,25 @@ public class XLSFileProcessor implements FileProcessor {
 
 	@Override
 	public List<String> process() throws InvalidInputException {
+		content = new ArrayList<String>();
 		if(ready && sheet != null && range != null) {
-			content = new ArrayList<String>();
 			processRange();
+		} else {
+			return content;
 		}
 		
 		Cell cell = null;
 		String cellContent = null;
 		
-		for(Point[] sector:sectors) {
-			for(int i = sector[0].col; i <= sector[1].col; i++) {
-				for(int j = sector[0].row; j <= sector[1].row; j++) {
-					cell = sheet.getCell(i, j);
-					cellContent = cell.getContents();
-					if(!cellContent.isEmpty() && cellContent != null) {
-						content.add(cellContent);
+		if(sectors != null) {
+			for(Point[] sector:sectors) {
+				for(int i = sector[0].col; i <= sector[1].col; i++) {
+					for(int j = sector[0].row; j <= sector[1].row; j++) {
+						cell = sheet.getCell(i, j);
+						cellContent = cell.getContents();
+						if(!cellContent.isEmpty() && cellContent != null) {
+							content.add(cellContent);
+						}
 					}
 				}
 			}

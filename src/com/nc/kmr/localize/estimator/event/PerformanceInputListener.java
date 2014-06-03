@@ -20,6 +20,8 @@ public class PerformanceInputListener implements CaretListener {
 		String input = field.getText();
 		if(input.matches("\\d+")) {
 			builder.setPerformance(input);
+		} else if(input.isEmpty()) {
+			builder.setPerformance("0");
 		}
 	}
 }

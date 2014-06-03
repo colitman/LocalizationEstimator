@@ -48,11 +48,11 @@ public class Analyzer {
 	}
 
 	public int getPerfromance() {
-		return perfromance;
+		return (perfromance == 0)? -1:perfromance;
 	}
 
 	public List<String> getDuplicateCells() {
-		return duplicateCells;
+		return (duplicateCells == null)? new ArrayList<String>():duplicateCells;
 	}
 
 	public int getAllCharacters() {
@@ -124,6 +124,10 @@ public class Analyzer {
 	}
 
 	void analyze(List<String> content) {
+		if(content == null) {
+			return;
+		}
+		
 		allContent = new StringBuilder();
 		if(uniques) {
 			uniqueContent = new StringBuilder();

@@ -1,9 +1,11 @@
 package com.nc.kmr.localize.estimator.view;
 
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,6 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
+import com.nc.kmr.localize.estimator.event.CopyResultsToClipboardButtonActionListener;
 import com.nc.kmr.localize.estimator.impl.analyze.Analyzer;
 
 public class ResultsWindow extends JFrame implements Runnable {
@@ -21,7 +24,15 @@ public class ResultsWindow extends JFrame implements Runnable {
 	private FileProcessor processor;
 	
 	private JPanel infoPanel = new JPanel();
-	private JLabel info = new JLabel();
+	
+	private JLabel fileNameTitle = new JLabel();
+	private JLabel fileName = new JLabel();
+	private JLabel filePathTitle = new JLabel();
+	private JLabel filePath = new JLabel();
+	private JLabel targetTitle = new JLabel();
+	private JLabel targetName = new JLabel();
+	private JLabel scopeTitle = new JLabel();
+	private JLabel scopeName = new JLabel();
 	
 	private JTabbedPane tabs = new JTabbedPane();
 	
@@ -34,6 +45,8 @@ public class ResultsWindow extends JFrame implements Runnable {
 	private JPanel repeatsPanel;
 	private JTextArea repeats;
 	private JScrollPane scroll;
+	
+	private JButton copyToCBButton = new JButton("Copy to clipboard");
 	
 	private GroupLayout globalLayout;
 	private GroupLayout infoPanelLayout;
@@ -53,7 +66,8 @@ public class ResultsWindow extends JFrame implements Runnable {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		createGUI();
 		fillResults();
-		setSize(600, 400);
+		setSize(600, 500);
+		setMinimumSize(new Dimension(600, 500));
 		setLocationRelativeTo(null);
 		setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 		setVisible(true);		
@@ -81,6 +95,8 @@ public class ResultsWindow extends JFrame implements Runnable {
 			scroll = new JScrollPane(repeatsPanel);
 			tabs.addTab("Repetitions", scroll);
 		}
+		
+		copyToCBButton.addActionListener(new CopyResultsToClipboardButtonActionListener(processor, tabs));
 		
 		layoutComponents();
 	}
@@ -148,12 +164,38 @@ public class ResultsWindow extends JFrame implements Runnable {
 		
 		infoPanelLayout.setHorizontalGroup(
 			infoPanelLayout.createSequentialGroup()
-				.addComponent(info)
+				.addGroup(infoPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+					.addComponent(fileNameTitle)
+					.addComponent(filePathTitle)
+					.addComponent(targetTitle)
+					.addComponent(scopeTitle)
+				)
+				.addGroup(infoPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(fileName)
+					.addComponent(filePath)
+					.addComponent(targetName)
+					.addComponent(scopeName)
+				)
+				
 		);
 		
 		infoPanelLayout.setVerticalGroup(
 			infoPanelLayout.createSequentialGroup()
-				.addComponent(info)
+				.addGroup(infoPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+					.addGroup(infoPanelLayout.createSequentialGroup()
+						.addComponent(fileNameTitle)
+						.addComponent(filePathTitle)
+						.addComponent(targetTitle)
+						.addComponent(scopeTitle)
+					)
+					.addGroup(infoPanelLayout.createSequentialGroup()
+						.addComponent(fileName)
+						.addComponent(filePath)
+						.addComponent(targetName)
+						.addComponent(scopeName)
+					)
+				)
+					
 		);
 		
 		
@@ -170,6 +212,7 @@ public class ResultsWindow extends JFrame implements Runnable {
 				.addGroup(globalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(infoPanel)
 					.addComponent(tabs)
+					.addComponent(copyToCBButton)
 				)
 		);
 		
@@ -177,15 +220,21 @@ public class ResultsWindow extends JFrame implements Runnable {
 			globalLayout.createSequentialGroup()
 				.addComponent(infoPanel)
 				.addComponent(tabs)
+				.addComponent(copyToCBButton)
 		);
 		
 	}
 
 	private void fillResults() {
-		info.setText("<html>Analyzed file: " + processor.getSimpleFileName() + NEW_LINE_HTML
-				+ "Filepath: " + processor.getFileName() + NEW_LINE_HTML
-				+ "Analyzed target: " + processor.getTarget() + NEW_LINE_HTML
-				+ "Analyzed scope: " + processor.getScope() + "</html>");
+		
+		fileNameTitle.setText("Analyzed file:");
+		fileName.setText(processor.getSimpleFileName());
+		filePathTitle.setText("Filepath:");
+		filePath.setText(processor.getFileName());
+		targetTitle.setText("Analyzed target:");
+		targetName.setText(processor.getTarget());
+		scopeTitle.setText("Analyzed scope:");
+		scopeName.setText(processor.getScope());
 		
 		allResults.append(CHARS + analyzer.getAllCharacters() + NEW_LINE);
 		allResults.append(CHARS_NO_SP + analyzer.getAllCharactersNoSpaces() + NEW_LINE);
@@ -212,21 +261,22 @@ public class ResultsWindow extends JFrame implements Runnable {
 		
 		if(analyzer.isCalculateLOE()) {
 			allResults.append("==================================================" + NEW_LINE);
-			allResults.append(LOE_FOR_TOTAL + analyzer.getAllCharactersNoSpaces()/analyzer.getPerfromance() + "m/d" + NEW_LINE);
-			allResults.append(LOE_FOR_LAT + analyzer.getAllLatinCharactersNoSpaces()/analyzer.getPerfromance() + "m/d" + NEW_LINE);
-			allResults.append(LOE_FOR_CYR + analyzer.getAllCyrillicCharactersNoSpaces()/analyzer.getPerfromance() + "m/d" + NEW_LINE);
+			allResults.append(PERF_TITLE + analyzer.getPerfromance() + " symbols per day" + NEW_LINE);
+			allResults.append(LOE_FOR_TOTAL + analyzer.getAllCharactersNoSpaces()/analyzer.getPerfromance() + " m/d" + NEW_LINE);
+			allResults.append(LOE_FOR_LAT + analyzer.getAllLatinCharactersNoSpaces()/analyzer.getPerfromance() + " m/d" + NEW_LINE);
+			allResults.append(LOE_FOR_CYR + analyzer.getAllCyrillicCharactersNoSpaces()/analyzer.getPerfromance() + " m/d" + NEW_LINE);
 			
 			if(analyzer.isShowUniquesStatistic()) {
 				uniqueResults.append("==================================================" + NEW_LINE);
-				uniqueResults.append(LOE_FOR_TOTAL + analyzer.getUniqueCharactersNoSpaces()/analyzer.getPerfromance() + "m/d" + NEW_LINE);
-				uniqueResults.append(LOE_FOR_LAT + analyzer.getUniqueLatinCharactersNoSpaces()/analyzer.getPerfromance() + "m/d" + NEW_LINE);
-				uniqueResults.append(LOE_FOR_CYR + analyzer.getUniqueCyrillicCharactersNoSpaces()/analyzer.getPerfromance() + "m/d" + NEW_LINE);
+				uniqueResults.append(PERF_TITLE + analyzer.getPerfromance() + " symbols per day" + NEW_LINE);
+				uniqueResults.append(LOE_FOR_TOTAL + analyzer.getUniqueCharactersNoSpaces()/analyzer.getPerfromance() + " m/d" + NEW_LINE);
+				uniqueResults.append(LOE_FOR_LAT + analyzer.getUniqueLatinCharactersNoSpaces()/analyzer.getPerfromance() + " m/d" + NEW_LINE);
+				uniqueResults.append(LOE_FOR_CYR + analyzer.getUniqueCyrillicCharactersNoSpaces()/analyzer.getPerfromance() + " m/d" + NEW_LINE);
 			}
 		}
 		
 	}
 	
-	private final String NEW_LINE_HTML = "<br>";
 	private final String NEW_LINE = System.getProperty("line.separator");
 	
 	private final String CHARS = "Total characters: ";
@@ -236,6 +286,8 @@ public class ResultsWindow extends JFrame implements Runnable {
 	private final String CYR_CHARS = "Total cyrillic characters: ";
 	private final String CYR_CHARS_NO_SP = "Total alphabetical cyrillic characters: ";
 	private final String DIGITS = "Total digits: ";
+	
+	private final String PERF_TITLE = "Expected performance rate: ";
 	
 	private final String LOE_FOR_TOTAL = "Total characters LOE: ";
 	private final String LOE_FOR_LAT = "Latin characters LOE: ";
