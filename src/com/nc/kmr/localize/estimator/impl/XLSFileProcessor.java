@@ -25,7 +25,7 @@ public class XLSFileProcessor implements FileProcessor {
 	private String range;
 	private List<String> content;
 	
-	private List<Point[]> sectors = new ArrayList<Point[]>();
+	private List<Point[]> sectors;// = new ArrayList<Point[]>();
 
 	public XLSFileProcessor(File file) {
 		this.file = file;
@@ -155,7 +155,7 @@ public class XLSFileProcessor implements FileProcessor {
 		String[] ranges = range.split(";");
 		
 		// TODO check for overlapping
-		
+		sectors = new ArrayList<Point[]>();
 		for(String range:ranges) {
 			createSector(range, cols, rows);
 		}

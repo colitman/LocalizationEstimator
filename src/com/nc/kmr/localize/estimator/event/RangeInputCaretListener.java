@@ -1,5 +1,7 @@
 package com.nc.kmr.localize.estimator.event;
 
+import java.awt.Color;
+
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -16,8 +18,13 @@ public class RangeInputCaretListener implements CaretListener {
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		processor.setScope(((JTextField)e.getSource()).getText());
-		// TODO add verifying
+		JTextField field = (JTextField)e.getSource();
+		String input = field.getText();
+		if(!processor.setScope(input)) {
+			field.setBackground(new Color(230,90,90));
+		} else {
+			field.setBackground(Color.WHITE);
+		}
 	}
 
 }

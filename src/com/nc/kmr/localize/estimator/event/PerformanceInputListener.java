@@ -16,10 +16,10 @@ public class PerformanceInputListener implements CaretListener {
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		String input = ((JTextField)e.getSource()).getText();
-		if(!input.isEmpty()) {
+		JTextField field = (JTextField)e.getSource();
+		String input = field.getText();
+		if(input.matches("\\d+")) {
 			builder.setPerformance(input);
 		}
 	}
-
 }
