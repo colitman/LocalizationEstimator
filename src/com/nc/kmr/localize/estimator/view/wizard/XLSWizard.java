@@ -24,6 +24,7 @@ import com.nc.kmr.localize.estimator.event.PerformanceInputListener;
 import com.nc.kmr.localize.estimator.event.RangeInputCaretListener;
 import com.nc.kmr.localize.estimator.event.SheetListSelectionListener;
 import com.nc.kmr.localize.estimator.event.UniquesOptionActionListener;
+import com.nc.kmr.localize.estimator.event.WizardWindowListener;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 import com.nc.kmr.localize.estimator.view.Wizard;
 
@@ -104,6 +105,8 @@ public class XLSWizard extends JFrame implements Wizard {
 		buttonsPanel = new JPanel();
 		analyzeButton = new JButton("Analyze");
 		analyzeButton.addActionListener(new AnalyzeButtonListener(builder, processor));
+		
+		addWindowListener(new WizardWindowListener(processor));
 		
 		layoutComponents();
 	}

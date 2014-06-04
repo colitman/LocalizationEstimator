@@ -160,6 +160,11 @@ public class XLSFileProcessor implements FileProcessor {
 		
 		return content;
 	}
+	
+	@Override
+	public void releaseResource() {
+		book.close();
+	}
 
 	private void processRange() throws InvalidInputException {
 		int cols = sheet.getColumns();

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
@@ -48,16 +49,16 @@ public class CopyResultsToClipboardButtonActionListener implements
 				StringSelection sel = new StringSelection(text);
 				Clipboard cp = Toolkit.getDefaultToolkit().getSystemClipboard();
 				cp.setContents(sel, null);
-			} else if("JViewport".equals(c.getClass().getSimpleName())) {
-				Component[] comp1 = ((JViewport)c).getComponents();
+			} else if("JScrollPane".equals(c.getClass().getSimpleName())) {
+				Component[] comp0 = ((JScrollPane)c).getComponents();
 				
-				for(Component c1:comp1) {
-					if("JPanel".equals(c1.getClass().getSimpleName())) {
-						Component[] comp2 = ((JComponent)c1).getComponents();
+				for(Component c0:comp0) {
+					if("JViewport".equals(c0.getClass().getSimpleName())) {
+						Component[] comp1 = ((JViewport)c0).getComponents();
 						
-						for(Component c2:comp2) {
-							if("JTextArea".equals(c2.getClass().getSimpleName())) {
-								String text2 = header + ((JTextArea)c2).getText();
+						for(Component c1:comp1) {
+							if("JTextArea".equals(c1.getClass().getSimpleName())) {
+								String text2 = header + ((JTextArea)c1).getText();
 								StringSelection sel2 = new StringSelection(text2);
 								Clipboard cp2 = Toolkit.getDefaultToolkit().getSystemClipboard();
 								cp2.setContents(sel2, null);

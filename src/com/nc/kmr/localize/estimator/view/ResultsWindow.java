@@ -92,8 +92,8 @@ public class ResultsWindow extends JFrame implements Runnable {
 			repeats.setEditable(false);
 			repeats.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
 			repeatsPanel = new JPanel();
-			scroll = new JScrollPane(repeatsPanel);
-			tabs.addTab("Repetitions", scroll);
+			scroll = new JScrollPane(repeats);
+			tabs.addTab("Repetitions", repeatsPanel);
 		}
 		
 		copyToCBButton.addActionListener(new CopyResultsToClipboardButtonActionListener(processor, tabs));
@@ -145,12 +145,13 @@ public class ResultsWindow extends JFrame implements Runnable {
 			
 			repeatesPanelLayout.setHorizontalGroup(
 				repeatesPanelLayout.createSequentialGroup()
-					.addComponent(repeats)
+					.addComponent(scroll)
 			);
 			
 			repeatesPanelLayout.setVerticalGroup(
 				repeatesPanelLayout.createSequentialGroup()
-					.addComponent(repeats)
+					.addComponent(scroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+					          GroupLayout.PREFERRED_SIZE)
 			);
 		}
 		
@@ -211,16 +212,16 @@ public class ResultsWindow extends JFrame implements Runnable {
 			globalLayout.createSequentialGroup()
 				.addGroup(globalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(infoPanel)
-					.addComponent(tabs)
 					.addComponent(copyToCBButton)
+					.addComponent(tabs)
 				)
 		);
 		
 		globalLayout.setVerticalGroup(
 			globalLayout.createSequentialGroup()
 				.addComponent(infoPanel)
-				.addComponent(tabs)
 				.addComponent(copyToCBButton)
+				.addComponent(tabs)
 		);
 		
 	}

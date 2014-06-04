@@ -1,10 +1,8 @@
 package com.nc.kmr.localize.estimator.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dialog.ModalExclusionType;
 
-import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;

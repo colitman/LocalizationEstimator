@@ -16,4 +16,5 @@ public interface FileProcessor {
 	public String getFileName();
 	public String getSimpleFileName();
 	public List<String> process() throws InvalidInputException;
+	public void releaseResource();
 }
