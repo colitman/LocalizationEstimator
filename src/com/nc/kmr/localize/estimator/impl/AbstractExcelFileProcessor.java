@@ -29,6 +29,24 @@ public abstract class AbstractExcelFileProcessor implements FileProcessor {
 	public String[] getTargets() {
 		return sheets;
 	}
+	
+	@Override
+	public boolean setScope(String scope) {
+		
+		if(scope == null) {
+			range = null;
+			return false;
+		}
+		
+		if(!scope.matches("([a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+;?)+")) {
+			range = null;
+			return false;
+		}
+		
+		range = scope;
+		
+		return true;
+	}
 
 	@Override
 	public String getScope() {

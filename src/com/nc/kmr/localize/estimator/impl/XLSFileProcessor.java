@@ -44,7 +44,7 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 
 
 	@Override
-	public boolean setTarget(String target) {		
+	public boolean setTarget(String target) {
 		sheet = book.getSheet(target);
 		
 		if(sheet != null) {
@@ -63,24 +63,6 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 		}
 		
 		return sheetName;
-	}
-
-	@Override
-	public boolean setScope(String scope) {
-		
-		if(scope == null) {
-			range = null;
-			return false;
-		}
-		
-		if(!scope.matches("([a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+;?)+")) {
-			range = null;
-			return false;
-		}
-		
-		range = scope;
-		
-		return true;
 	}
 
 	@Override
