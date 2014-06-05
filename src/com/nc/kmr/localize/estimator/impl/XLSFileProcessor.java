@@ -88,7 +88,7 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 						}
 						cell = sheet.getCell(i, j);
 						cellContent = cell.getContents();
-						if(!cellContent.isEmpty() && cellContent != null) {
+						if(cellContent != null && !cellContent.isEmpty()) {
 							content.add(cellContent);
 						}
 					}

@@ -33,6 +33,7 @@ public class MainWindow extends JFrame implements Runnable {
 	private JLabel line2 = new JLabel("Supported file formats are as follows:");
 	private JLabel excel = new JLabel("MS Excel");
 	private JLabel xls = new JLabel("- .xls");
+	private JLabel xlsx = new JLabel("- .xlsx");
 	private JLabel lastLine = new JLabel("Developed in NetCracker Knowledge Management and Research department");
 	
 
@@ -85,6 +86,11 @@ public class MainWindow extends JFrame implements Runnable {
 					.addPreferredGap(excel, xls, LayoutStyle.ComponentPlacement.INDENT)
 					.addComponent(xls)
 				)
+				.addGroup(descLayout.createSequentialGroup()
+					.addPreferredGap(xls, xlsx, LayoutStyle.ComponentPlacement.INDENT)
+					.addPreferredGap(xls, xlsx, LayoutStyle.ComponentPlacement.INDENT)
+					.addComponent(xlsx)
+				)
 				.addComponent(lastLine)
 		);
 		
@@ -94,6 +100,8 @@ public class MainWindow extends JFrame implements Runnable {
 				.addComponent(line2)
 				.addComponent(excel)
 				.addComponent(xls)
+				.addGap(0)
+				.addComponent(xlsx)
 				.addComponent(lastLine)
 		);
 		
