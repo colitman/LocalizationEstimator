@@ -144,7 +144,7 @@ public class XLSFileProcessor implements FileProcessor {
 			for(Point[] sector:sectors) {
 				for(int i = sector[0].col; i <= sector[1].col; i++) {
 					for(int j = sector[0].row; j <= sector[1].row; j++) {
-						String cellCoord = String.valueOf(i) + String.valueOf(j);
+						String cellCoord = String.valueOf(i) + "_" + String.valueOf(j);
 						if(!processed.add(cellCoord)) {
 							continue;
 						}
