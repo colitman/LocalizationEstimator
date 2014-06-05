@@ -11,6 +11,7 @@ import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.exception.FileReadingException;
 import com.nc.kmr.localize.estimator.exception.UnsupportedFileTypeException;
 import com.nc.kmr.localize.estimator.impl.XLSFileProcessor;
+import com.nc.kmr.localize.estimator.impl.XLSXFileProcessor;
 import com.nc.kmr.localize.estimator.util.Utils;
 import com.nc.kmr.localize.estimator.view.wizard.XLSWizard;
 
@@ -59,12 +60,14 @@ public class WizardFactory {
 	private static void initProcessors() {
 		processors = new Hashtable<String, Class<? extends FileProcessor>>();
 		
-		processors.put("xls", XLSFileProcessor.class);		
+		processors.put("xls", XLSFileProcessor.class);
+		processors.put("xlsx", XLSXFileProcessor.class);
 	}
 
 	private static void initWizards() {
 		wizards = new Hashtable<Class<? extends FileProcessor>, Class<? extends Wizard>>();
 		
 		wizards.put(XLSFileProcessor.class, XLSWizard.class);
+		wizards.put(XLSXFileProcessor.class, XLSWizard.class);
 	}
 }

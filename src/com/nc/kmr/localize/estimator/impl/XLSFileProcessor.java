@@ -12,29 +12,23 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
-import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 import com.nc.kmr.localize.estimator.util.ExcelUtils;
 
-public class XLSFileProcessor implements FileProcessor {
+public class XLSFileProcessor extends AbstractExcelFileProcessor {
 	
-	private boolean ready = false;
-	private Exception fileException;
-	private File file;
 	private Workbook book;
-	private String[] sheets;
 	private Sheet sheet;
-	private String range;
-	private List<String> content;
 	
-	private List<Point[]> sectors;// = new ArrayList<Point[]>();
+	private List<Point[]> sectors;
 
 	public XLSFileProcessor(File file) {
 		this.file = file;
 		init();
 	}
-
-	private void init() {
+	
+	@Override
+	protected void init() {
 		try {
 			book = Workbook.getWorkbook(file);
 			ready = true;
@@ -47,21 +41,7 @@ public class XLSFileProcessor implements FileProcessor {
 			fileException = e;
 		}
 	}
-	
-	@Override
-	public boolean isReady() {
-		return ready;
-	}
-	
-	@Override
-	public Exception getNotReadyException() {
-		return fileException;
-	}
 
-	@Override
-	public String[] getTargets() {
-		return sheets;
-	}
 
 	@Override
 	public boolean setTarget(String target) {		
@@ -101,30 +81,6 @@ public class XLSFileProcessor implements FileProcessor {
 		range = scope;
 		
 		return true;
-	}
-
-	@Override
-	public String getScope() {
-		return range;
-	}
-
-	@Override
-	public String getFileName() {
-		String path = null;
-		
-		try {
-			path = file.getCanonicalPath();
-		} catch (IOException e) {
-			// TODO Add logging
-			e.printStackTrace();
-		}
-		
-		return path;
-	}
-
-	@Override
-	public String getSimpleFileName() {
-		return file.getName();
 	}
 
 	@Override
