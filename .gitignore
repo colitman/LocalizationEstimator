@@ -1,1 +1,7 @@
 /bin
+/docs
+
+/docs/*.png
+docs
+/.classpath
+/.project
