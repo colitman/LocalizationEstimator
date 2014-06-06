@@ -5,3 +5,7 @@
 docs
 /.classpath
 /.project
+/lib
+/res
+/*.jar
+/*.bat
