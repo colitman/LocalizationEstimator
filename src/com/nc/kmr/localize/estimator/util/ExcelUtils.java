@@ -2,8 +2,6 @@ package com.nc.kmr.localize.estimator.util;
 
 public class ExcelUtils {
 	
-	private static String abc = "abcdefghijklmnopqrstuvwxyz";
-	
 	public static int[] convertCellAddressToIntArray(String cellAddress) {
 		int[] address = new int[2];
 		
@@ -20,7 +18,14 @@ public class ExcelUtils {
 		return letter2Int(col);
 	}
 
-	private static int letter2Int(String col) {		
-		return abc.indexOf(col.toLowerCase());
+	private static int letter2Int(String col) {				
+		String columnName = col.toUpperCase();
+        int value = 0;
+        for (int i = 0; i < columnName.length(); i++) {
+            int delta = (columnName.charAt(i)) - 64;
+            value = value * 26 + delta;
+        }
+        
+        return value - 1;
 	}
 }
