@@ -237,23 +237,26 @@ public class ResultsWindow extends JFrame implements Runnable {
 		scopeTitle.setText("Analyzed scope:");
 		scopeName.setText(processor.getScope());
 		
-		allResults.append(CHARS + analyzer.getAllCharacters() + " in " + analyzer.getAllEntriesCount() + " entries" + NEW_LINE);
+		allResults.append(CHARS + analyzer.getAllCharacters() + " (" + analyzer.getAllEntriesCount() + " entries)" + NEW_LINE);
 		allResults.append(CHARS_NO_SP + analyzer.getAllCharactersNoSpaces() + NEW_LINE);
-		allResults.append(LAT_CHARS + analyzer.getAllLatinCharacters() + NEW_LINE);
+		allResults.append(LAT_CHARS + analyzer.getAllLatinCharacters() + " (" + analyzer.getAllLatinEntriesCount() + " entries)" + NEW_LINE);
 		allResults.append(LAT_CHARS_NO_SP + analyzer.getAllLatinCharactersNoSpaces() + NEW_LINE);
-		allResults.append(CYR_CHARS + analyzer.getAllCyrillicCharacters() + NEW_LINE);
+		allResults.append(CYR_CHARS + analyzer.getAllCyrillicCharacters() + " (" + analyzer.getAllCyrillicEntriesCount() + " entries)" + NEW_LINE);
 		allResults.append(CYR_CHARS_NO_SP + analyzer.getAllCyrillicCharactersNoSpaces() + NEW_LINE);
 		allResults.append(DIGITS + analyzer.getAllDigits() + NEW_LINE);
 		
 		if(analyzer.isShowUniquesStatistic()) {
-			uniqueResults.append(CHARS + analyzer.getUniqueCharacters() + " in " + analyzer.getUniqueEntriesCount() + " entries" + NEW_LINE);
+			uniqueResults.append(CHARS + analyzer.getUniqueCharacters() + " (" + analyzer.getUniqueEntriesCount() + " entries)" + NEW_LINE);
 			uniqueResults.append(CHARS_NO_SP + analyzer.getUniqueCharactersNoSpaces() + NEW_LINE);
-			uniqueResults.append(LAT_CHARS + analyzer.getUniqueLatinCharacters() + NEW_LINE);
+			uniqueResults.append(LAT_CHARS + analyzer.getUniqueLatinCharacters() + " (" + analyzer.getUniqueLatinEntriesCount() + " entries)" + NEW_LINE);
 			uniqueResults.append(LAT_CHARS_NO_SP + analyzer.getUniqueLatinCharactersNoSpaces() + NEW_LINE);
-			uniqueResults.append(CYR_CHARS + analyzer.getUniqueCyrillicCharacters() + NEW_LINE);
+			uniqueResults.append(CYR_CHARS + analyzer.getUniqueCyrillicCharacters() + " (" + analyzer.getUniqueCyrillicEntriesCount() + " entries)" + NEW_LINE);
 			uniqueResults.append(CYR_CHARS_NO_SP + analyzer.getUniqueCyrillicCharactersNoSpaces() + NEW_LINE);
 			uniqueResults.append(DIGITS + analyzer.getUniqueDigits() + NEW_LINE);
 			
+			repeats.append("Duplicate entries list (" + analyzer.getDuplicateEntriesCount() + " total):");
+			repeats.append(NEW_LINE);
+			repeats.append(NEW_LINE);
 			for(String entry:analyzer.getDuplicateCells()) {
 				repeats.append(entry);
 				repeats.append(NEW_LINE);

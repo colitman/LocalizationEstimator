@@ -36,6 +36,11 @@ public class Analyzer {
 	
 	private int allEntriesCount;
 	private int uniqueEntriesCount;
+	private int allLatinEntriesCount;
+	private int allCyrillicEntriesCount;
+	private int uniqueLatinEntriesCount;
+	private int uniqueCyrillicEntriesCount;
+	private int duplicateEntriesCount;
 	
 	Analyzer() {
 		uniques = false;
@@ -127,6 +132,26 @@ public class Analyzer {
 		return uniqueEntriesCount;
 	}
 
+	public int getAllLatinEntriesCount() {
+		return allLatinEntriesCount;
+	}
+
+	public int getAllCyrillicEntriesCount() {
+		return allCyrillicEntriesCount;
+	}
+
+	public int getUniqueLatinEntriesCount() {
+		return uniqueLatinEntriesCount;
+	}
+
+	public int getUniqueCyrillicEntriesCount() {
+		return uniqueCyrillicEntriesCount;
+	}
+
+	public int getDuplicateEntriesCount() {
+		return duplicateEntriesCount;
+	}
+
 	void setShowUniquesStatistic(boolean b) {
 		this.uniques = b;
 	}
@@ -163,16 +188,37 @@ public class Analyzer {
 			}
 			
 			allContent.append(s);
+			
+			if(s.matches(".*[à-ÿÀ-ß]+.*")) {
+				System.out.println("rus");
+				allCyrillicEntriesCount++;
+			}
+			
+			if(s.matches(".*[a-zA-Z]+.*")) {
+				System.out.println("lat");
+				allLatinEntriesCount++;
+			}
+			
 			if(uniques) {
 				if(uniqueCells.add(s)) {
 					uniqueContent.append(s);
+					
+					if(s.matches(".*[à-ÿÀ-ß]+.*")) {
+						uniqueCyrillicEntriesCount++;
+					}
+					
+					if(s.matches(".*[a-zA-Z]+.*")) {
+						uniqueLatinEntriesCount++;
+					}
+					
 				} else {
 					duplicateCells.add(s);
 				}
+				
+				uniqueEntriesCount = uniqueCells.size();
+				duplicateEntriesCount = duplicateCells.size();
 			}
 		}
-		
-		uniqueEntriesCount = uniqueCells.size();
 		
 		calculate();
 	}
