@@ -73,6 +73,7 @@ public class MainWindow extends JFrame implements Runnable {
 		chooser.addChoosableFileFilter(new PropertiesFileFilter());
 		chooser.setFileFilter(defFilter);
 		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setMultiSelectionEnabled(true);
 		browseButton.addActionListener(new BrowseButtonListener(chooser));
 
 		aboutMenu.add(credits);

@@ -22,8 +22,8 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 	
 	private List<Point[]> sectors;
 
-	public XLSFileProcessor(File file) {
-		this.file = file;
+	public XLSFileProcessor(File[] files) {
+		this.file = files[0];
 		init();
 	}
 	

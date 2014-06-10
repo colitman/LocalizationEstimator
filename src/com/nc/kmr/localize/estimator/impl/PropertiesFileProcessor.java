@@ -13,24 +13,27 @@ import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 
 public class PropertiesFileProcessor implements FileProcessor {
 	
-	private File file;
+	private File[] files;
 	
 	private boolean ready = false;
 	private Exception fileNotReadyException;
-	private Properties props;
+	private Properties[] props;
 	private List<String> content;
 
 	private String scope = "";
 
-	public PropertiesFileProcessor(File file) {
-		this.file = file;
+	public PropertiesFileProcessor(File[] files) {
+		this.files = files;
 		init();
 	}
 
 	private void init() {
-		props = new Properties();
+		props = new Properties[files.length];
 		try {
-			props.load(new FileReader(file));
+			for(int i = 0; i < files.length; i++) {
+				props[i] = new Properties();
+				props[i].load(new FileReader(files[i]));
+			}
 			ready = true;
 		} catch (IOException e) {
 			// TODO Add logging
@@ -95,10 +98,15 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 	@Override
 	public String getFileName() {
-		String path = null;
+		String path = "";
 		
 		try {
-			path = file.getCanonicalPath();
+			if(files.length == 1) {
+				path = files[0].getCanonicalPath();
+			} else {
+				File parentFolder = files[0].getParentFile();
+				path = "'" + parentFolder.getCanonicalPath() + "' folder";
+			}
 		} catch (IOException e) {
 			// TODO Add logging
 			e.printStackTrace();
@@ -109,7 +117,16 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 	@Override
 	public String getSimpleFileName() {
-		return file.getName();
+		String name = "";
+		
+		if(files.length == 1) {
+			name = files[0].getName();
+		} else {
+			File parentFolder = files[0].getParentFile();
+			name = "'" + parentFolder.getName() + "' folder";
+		}
+		
+		return name;
 	}
 
 	@Override
@@ -119,11 +136,15 @@ public class PropertiesFileProcessor implements FileProcessor {
 			return content;
 		}
 		
+		String value = "";
 		Enumeration<Object> values;
-		for(values = props.elements(); values.hasMoreElements();) {
-			String value = (String) values.nextElement();
-			if(value != null && !value.isEmpty()) {
-				content.add(value);
+		
+		for(Properties prop:props) {
+			for(values = prop.elements(); values.hasMoreElements();) {
+				value = (String) values.nextElement();
+				if(value != null && !value.isEmpty()) {
+					content.add(value);
+				}
 			}
 		}
 		
@@ -132,7 +153,8 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 	@Override
 	public void releaseResource() {
-		file = null;
+		files = null;
+		props = null;
 	}
 
 }

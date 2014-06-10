@@ -32,8 +32,8 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 	private Sheet sheet;
 	private List<Sheet> sheetList;
 
-	public XLSXFileProcessor(File file) {
-		this.file = file;
+	public XLSXFileProcessor(File[] files) {
+		this.file = files[0];
 		init();
 	}
 

@@ -21,13 +21,18 @@ public class WizardFactory {
 	private static Map<String, Class<? extends FileProcessor>> processors = null;
 	private static Map<Class<? extends FileProcessor>, Class<? extends Wizard>> wizards = null;
 	
-	public static void showAnalyzeWizard(File file) throws UnsupportedFileTypeException, 
+	public static void showAnalyzeWizard(File[] files) throws UnsupportedFileTypeException, 
 															InstantiationException, 
 															IllegalAccessException, 
 															InvocationTargetException, 
 															NoSuchMethodException, 
 															FileReadingException {
-		String fileType = Utils.getFileType(file);
+		
+		if(files.length == 0) {
+			return;
+		}
+		
+		String fileType = Utils.getFileType(files[0]);		
 		FileProcessor processor = null;
 		Wizard wizard = null;
 		
@@ -42,7 +47,7 @@ public class WizardFactory {
 		if(!processors.containsKey(fileType)) {
 			throw new UnsupportedFileTypeException("Files of the selected type are not supported: ." + fileType);
 		} else {
-			processor = processors.get(fileType).getConstructor(File.class).newInstance(file);
+			processor = processors.get(fileType).getConstructor(File[].class).newInstance((Object)files);
 		}
 		
 		if(!processor.isReady()) {

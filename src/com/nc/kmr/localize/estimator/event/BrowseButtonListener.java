@@ -21,15 +21,15 @@ public class BrowseButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		File file = null;
+		File[] files = new File[0];
 		
 		int chooserVal = chooser.showOpenDialog((Component) e.getSource());
 		
 		if(chooserVal == JFileChooser.APPROVE_OPTION) {
-			file = chooser.getSelectedFile();
+			files = chooser.getSelectedFiles();
 			
 			try {
-				WizardFactory.showAnalyzeWizard(file);
+				WizardFactory.showAnalyzeWizard(files);
 			} catch (ReflectiveOperationException ex) {
 				// TODO Add logging
 				ex.printStackTrace();
