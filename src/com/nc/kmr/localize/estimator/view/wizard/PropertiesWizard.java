@@ -165,7 +165,6 @@ public class PropertiesWizard extends JFrame implements Wizard {
 		);
 		
 		optionsPanelLayout.linkSize(SwingConstants.HORIZONTAL, showUniques, performanceInput);
-		//globalLayout.linkSize(SwingConstants.VERTICAL, sheetChoicePanel, rangeChoicePanel, optionsChoicePanel);
 		
 	}
 
