@@ -34,6 +34,9 @@ public class Analyzer {
 	private int uniqueCyrillicCharactersNoSpaces;
 	private int uniqueDigits;
 	
+	private int allEntriesCount;
+	private int uniqueEntriesCount;
+	
 	Analyzer() {
 		uniques = false;
 		LOE = false;
@@ -116,6 +119,14 @@ public class Analyzer {
 		return uniqueDigits;
 	}
 
+	public int getAllEntriesCount() {
+		return allEntriesCount;
+	}
+
+	public int getUniqueEntriesCount() {
+		return uniqueEntriesCount;
+	}
+
 	void setShowUniquesStatistic(boolean b) {
 		this.uniques = b;
 	}
@@ -144,6 +155,7 @@ public class Analyzer {
 			duplicateCells = new ArrayList<String>();
 		}
 		
+		allEntriesCount = content.size();
 		
 		for(String s:content) {
 			if(printToConsole) {
@@ -159,6 +171,8 @@ public class Analyzer {
 				}
 			}
 		}
+		
+		uniqueEntriesCount = uniqueCells.size();
 		
 		calculate();
 	}

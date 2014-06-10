@@ -237,7 +237,7 @@ public class ResultsWindow extends JFrame implements Runnable {
 		scopeTitle.setText("Analyzed scope:");
 		scopeName.setText(processor.getScope());
 		
-		allResults.append(CHARS + analyzer.getAllCharacters() + NEW_LINE);
+		allResults.append(CHARS + analyzer.getAllCharacters() + " in " + analyzer.getAllEntriesCount() + " entries" + NEW_LINE);
 		allResults.append(CHARS_NO_SP + analyzer.getAllCharactersNoSpaces() + NEW_LINE);
 		allResults.append(LAT_CHARS + analyzer.getAllLatinCharacters() + NEW_LINE);
 		allResults.append(LAT_CHARS_NO_SP + analyzer.getAllLatinCharactersNoSpaces() + NEW_LINE);
@@ -246,7 +246,7 @@ public class ResultsWindow extends JFrame implements Runnable {
 		allResults.append(DIGITS + analyzer.getAllDigits() + NEW_LINE);
 		
 		if(analyzer.isShowUniquesStatistic()) {
-			uniqueResults.append(CHARS + analyzer.getUniqueCharacters() + NEW_LINE);
+			uniqueResults.append(CHARS + analyzer.getUniqueCharacters() + " in " + analyzer.getUniqueEntriesCount() + " entries" + NEW_LINE);
 			uniqueResults.append(CHARS_NO_SP + analyzer.getUniqueCharactersNoSpaces() + NEW_LINE);
 			uniqueResults.append(LAT_CHARS + analyzer.getUniqueLatinCharacters() + NEW_LINE);
 			uniqueResults.append(LAT_CHARS_NO_SP + analyzer.getUniqueLatinCharactersNoSpaces() + NEW_LINE);
