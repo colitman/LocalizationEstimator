@@ -15,9 +15,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileFilter;
 
 import com.nc.kmr.localize.estimator.event.BrowseButtonListener;
 import com.nc.kmr.localize.estimator.event.CreditsPresenter;
+import com.nc.kmr.localize.estimator.filefilter.AllSupportedFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.PropertiesFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSXFileFilter;
@@ -63,9 +65,14 @@ public class MainWindow extends JFrame implements Runnable {
 		JMenuItem credits = new JMenuItem("Credits");
 		credits.addActionListener(new CreditsPresenter());
 		
+		FileFilter defFilter = new AllSupportedFileFilter();
+		
+		chooser.addChoosableFileFilter(defFilter);
 		chooser.addChoosableFileFilter(new XLSFileFilter());
 		chooser.addChoosableFileFilter(new XLSXFileFilter());
 		chooser.addChoosableFileFilter(new PropertiesFileFilter());
+		chooser.setFileFilter(defFilter);
+		chooser.setAcceptAllFileFilterUsed(false);
 		browseButton.addActionListener(new BrowseButtonListener(chooser));
 
 		aboutMenu.add(credits);
