@@ -16,7 +16,9 @@ import javax.swing.LayoutStyle;
 
 import com.nc.kmr.localize.estimator.event.BrowseButtonListener;
 import com.nc.kmr.localize.estimator.event.CreditsPresenter;
+import com.nc.kmr.localize.estimator.filefilter.PropertiesFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSFileFilter;
+import com.nc.kmr.localize.estimator.filefilter.XLSXFileFilter;
 
 public class MainWindow extends JFrame implements Runnable {
 
@@ -56,6 +58,8 @@ public class MainWindow extends JFrame implements Runnable {
 		credits.addActionListener(new CreditsPresenter());
 		
 		chooser.addChoosableFileFilter(new XLSFileFilter());
+		chooser.addChoosableFileFilter(new XLSXFileFilter());
+		chooser.addChoosableFileFilter(new PropertiesFileFilter());
 		browseButton.addActionListener(new BrowseButtonListener(chooser));
 
 		aboutMenu.add(credits);

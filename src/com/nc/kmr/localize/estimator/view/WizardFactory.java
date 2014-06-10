@@ -10,9 +10,11 @@ import javax.swing.SwingUtilities;
 import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.exception.FileReadingException;
 import com.nc.kmr.localize.estimator.exception.UnsupportedFileTypeException;
+import com.nc.kmr.localize.estimator.impl.PropertiesFileProcessor;
 import com.nc.kmr.localize.estimator.impl.XLSFileProcessor;
 import com.nc.kmr.localize.estimator.impl.XLSXFileProcessor;
 import com.nc.kmr.localize.estimator.util.Utils;
+import com.nc.kmr.localize.estimator.view.wizard.PropertiesWizard;
 import com.nc.kmr.localize.estimator.view.wizard.XLSWizard;
 
 public class WizardFactory {
@@ -62,6 +64,8 @@ public class WizardFactory {
 		
 		processors.put("xls", XLSFileProcessor.class);
 		processors.put("xlsx", XLSXFileProcessor.class);
+		processors.put("properties", PropertiesFileProcessor.class);
+		processors.put("ini", PropertiesFileProcessor.class);
 	}
 
 	private static void initWizards() {
@@ -69,5 +73,6 @@ public class WizardFactory {
 		
 		wizards.put(XLSFileProcessor.class, XLSWizard.class);
 		wizards.put(XLSXFileProcessor.class, XLSWizard.class);
+		wizards.put(PropertiesFileProcessor.class, PropertiesWizard.class);
 	}
 }
