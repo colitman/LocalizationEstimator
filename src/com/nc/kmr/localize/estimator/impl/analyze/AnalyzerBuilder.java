@@ -8,6 +8,7 @@ public class AnalyzerBuilder {
 	private boolean showUniquesStatistic;
 	private boolean calculateLOE;
 	private int performance;
+	private boolean printToConsole;
 	
 	public AnalyzerBuilder() {
 		analyzer = new Analyzer();
@@ -39,6 +40,15 @@ public class AnalyzerBuilder {
 		analyzer.setPerformance(this.performance);
 	}
 	
+	public boolean isPrintToConsole() {
+		return printToConsole;
+	}
+
+	public void setPrintToConsole(boolean printToConsole) {
+		this.printToConsole = printToConsole;
+		analyzer.setPrintToConsole(printToConsole);
+	}
+
 	public Analyzer parse(List<String> content) {
 		analyzer.analyze(content);
 		

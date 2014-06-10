@@ -66,6 +66,7 @@ public class WizardFactory {
 		processors.put("xlsx", XLSXFileProcessor.class);
 		processors.put("properties", PropertiesFileProcessor.class);
 		processors.put("ini", PropertiesFileProcessor.class);
+		processors.put("lng", PropertiesFileProcessor.class);
 	}
 
 	private static void initWizards() {

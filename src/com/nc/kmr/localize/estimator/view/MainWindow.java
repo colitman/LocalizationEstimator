@@ -1,8 +1,10 @@
 package com.nc.kmr.localize.estimator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dialog.ModalExclusionType;
 
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -12,7 +14,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 
 import com.nc.kmr.localize.estimator.event.BrowseButtonListener;
 import com.nc.kmr.localize.estimator.event.CreditsPresenter;
@@ -26,6 +28,8 @@ public class MainWindow extends JFrame implements Runnable {
 	
 	private JPanel mainPanel = new JPanel();
 	private JPanel descPanel = new JPanel();
+	private JPanel excelFilesPanel = new JPanel();
+	private JPanel keyValueFilesPanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	
 	private JButton browseButton = new JButton("Browse file...");
@@ -33,9 +37,11 @@ public class MainWindow extends JFrame implements Runnable {
 	
 	private JLabel line1 = new JLabel("Localization Estimator is intended to help translators estimate translation time for different pieces of text");
 	private JLabel line2 = new JLabel("Supported file formats are as follows:");
-	private JLabel excel = new JLabel("MS Excel");
-	private JLabel xls = new JLabel("- .xls");
-	private JLabel xlsx = new JLabel("- .xlsx");
+	private JLabel xls = new JLabel("- *.xls");
+	private JLabel xlsx = new JLabel("- *.xlsx");
+	private JLabel properties = new JLabel("- *.properties");
+	private JLabel ini = new JLabel("- *.ini");
+	private JLabel lng = new JLabel("- *.lng");
 	private JLabel lastLine = new JLabel("Developed in NetCracker Knowledge Management and Research department");
 	
 
@@ -66,11 +72,57 @@ public class MainWindow extends JFrame implements Runnable {
 		menuBar.add(aboutMenu);
 		setJMenuBar(menuBar);
 		add(mainPanel, BorderLayout.CENTER);
+		
+		excelFilesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "MS Excel:"));
+		keyValueFilesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Key-Value:"));
 
 		layoutComponents();
 	}
 
 	private void layoutComponents() {
+		
+		GroupLayout excelFilesPanelLayout = new GroupLayout(excelFilesPanel);
+		excelFilesPanel.setLayout(excelFilesPanelLayout);
+		excelFilesPanelLayout.setAutoCreateContainerGaps(true);
+		excelFilesPanelLayout.setAutoCreateGaps(true);
+		
+		excelFilesPanelLayout.setHorizontalGroup(
+			excelFilesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(xls)
+				.addComponent(xlsx)
+		);
+		
+		excelFilesPanelLayout.setVerticalGroup(
+			excelFilesPanelLayout.createSequentialGroup()
+				.addComponent(xls)
+				.addGap(0)
+				.addComponent(xlsx)
+		);
+		
+		
+		
+		GroupLayout keyValueFilesPanelLayout = new GroupLayout(keyValueFilesPanel);
+		keyValueFilesPanel.setLayout(keyValueFilesPanelLayout);
+		keyValueFilesPanelLayout.setAutoCreateContainerGaps(true);
+		keyValueFilesPanelLayout.setAutoCreateGaps(true);
+		
+		keyValueFilesPanelLayout.setHorizontalGroup(
+				keyValueFilesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(properties)
+				.addComponent(ini)
+				.addComponent(lng)
+		);
+		
+		keyValueFilesPanelLayout.setVerticalGroup(
+				keyValueFilesPanelLayout.createSequentialGroup()
+				.addComponent(properties)
+				.addGap(0)
+				.addComponent(ini)
+				.addGap(0)
+				.addComponent(lng)
+		);
+		
+		
 		
 		GroupLayout descLayout = new GroupLayout(descPanel);
 		descPanel.setLayout(descLayout);
@@ -82,18 +134,8 @@ public class MainWindow extends JFrame implements Runnable {
 				.addComponent(line1)
 				.addComponent(line2)
 				.addGroup(descLayout.createSequentialGroup()
-					.addPreferredGap(line2, excel, LayoutStyle.ComponentPlacement.INDENT)
-					.addComponent(excel)
-				)
-				.addGroup(descLayout.createSequentialGroup()
-					.addPreferredGap(excel, xls, LayoutStyle.ComponentPlacement.INDENT)
-					.addPreferredGap(excel, xls, LayoutStyle.ComponentPlacement.INDENT)
-					.addComponent(xls)
-				)
-				.addGroup(descLayout.createSequentialGroup()
-					.addPreferredGap(xls, xlsx, LayoutStyle.ComponentPlacement.INDENT)
-					.addPreferredGap(xls, xlsx, LayoutStyle.ComponentPlacement.INDENT)
-					.addComponent(xlsx)
+					.addComponent(excelFilesPanel)
+					.addComponent(keyValueFilesPanel)
 				)
 				.addComponent(lastLine)
 		);
@@ -102,13 +144,14 @@ public class MainWindow extends JFrame implements Runnable {
 			descLayout.createSequentialGroup()
 				.addComponent(line1)
 				.addComponent(line2)
-				.addComponent(excel)
-				.addComponent(xls)
-				.addGap(0)
-				.addComponent(xlsx)
+				.addGroup(descLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(excelFilesPanel)
+					.addComponent(keyValueFilesPanel)
+				)
 				.addComponent(lastLine)
 		);
 		
+		descLayout.linkSize(SwingConstants.VERTICAL, excelFilesPanel, keyValueFilesPanel);		
 		
 		
 		GroupLayout buttonLayout = new GroupLayout(buttonPanel);

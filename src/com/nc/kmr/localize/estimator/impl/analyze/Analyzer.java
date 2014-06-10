@@ -10,6 +10,7 @@ public class Analyzer {
 	private boolean uniques;
 	private boolean LOE;
 	private int perfromance;
+	private boolean printToConsole;
 	
 	private StringBuilder allContent;
 	private StringBuilder uniqueContent;
@@ -49,6 +50,10 @@ public class Analyzer {
 
 	public int getPerfromance() {
 		return (perfromance == 0)? -1:perfromance;
+	}
+	
+	public boolean isPrintToConsole() {
+		return printToConsole;
 	}
 
 	public List<String> getDuplicateCells() {
@@ -122,6 +127,10 @@ public class Analyzer {
 	void setPerformance(int performance) {
 		this.perfromance = performance;
 	}
+	
+	void setPrintToConsole(boolean printToConsole) {
+		this.printToConsole = printToConsole;
+	}
 
 	void analyze(List<String> content) {
 		if(content == null) {
@@ -137,6 +146,10 @@ public class Analyzer {
 		
 		
 		for(String s:content) {
+			if(printToConsole) {
+				System.out.println(s);
+			}
+			
 			allContent.append(s);
 			if(uniques) {
 				if(uniqueCells.add(s)) {
