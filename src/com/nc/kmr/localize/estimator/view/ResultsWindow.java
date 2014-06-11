@@ -90,6 +90,7 @@ public class ResultsWindow extends JFrame implements Runnable {
 			repeats.setLineWrap(true);
 			repeats.setWrapStyleWord(true);
 			repeats.setEditable(false);
+			repeats.setRows(14);
 			repeats.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
 			repeatsPanel = new JPanel();
 			scroll = new JScrollPane(repeats);
