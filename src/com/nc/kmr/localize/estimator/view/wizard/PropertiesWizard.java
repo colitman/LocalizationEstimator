@@ -88,9 +88,7 @@ public class PropertiesWizard extends JFrame implements Wizard {
 		layoutComponents();
 	}
 
-	private void layoutComponents() {
-		// TODO Auto-generated method stub
-		
+	private void layoutComponents() {		
 		buttonsPanelLayout = new GroupLayout(buttonsPanel);
 		buttonsPanel.setLayout(buttonsPanelLayout);
 		buttonsPanelLayout.setAutoCreateContainerGaps(true);
