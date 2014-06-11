@@ -61,7 +61,7 @@
         	</execution>
     	</executions>
     	<configuration>
-        	<descriptor>src/bin.xml</descriptor>
+        	<descriptor>bin.xml</descriptor>
     	</configuration>
 	  </plugin>
     </plugins>
