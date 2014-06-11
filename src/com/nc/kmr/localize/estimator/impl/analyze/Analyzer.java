@@ -190,12 +190,10 @@ public class Analyzer {
 			allContent.append(s);
 			
 			if(s.matches(".*[à-ÿÀ-ß]+.*")) {
-				System.out.println("rus");
 				allCyrillicEntriesCount++;
 			}
 			
 			if(s.matches(".*[a-zA-Z]+.*")) {
-				System.out.println("lat");
 				allLatinEntriesCount++;
 			}
 			
