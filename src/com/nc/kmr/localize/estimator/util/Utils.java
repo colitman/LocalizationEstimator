@@ -10,6 +10,10 @@ public class Utils {
 			return type;
 		}
 		
+		if(file.getName().indexOf(".") == -1) {
+			return type;
+		}
+		
 		String[] fileName = file.getName().split("\\.");
 		
 		if(fileName.length == 0) {
