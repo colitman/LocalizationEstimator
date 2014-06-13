@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 
-import com.nc.kmr.localize.estimator.event.BrowseButtonListener;
-import com.nc.kmr.localize.estimator.event.CreditsPresenter;
+import com.nc.kmr.localize.estimator.event.common.BrowseButtonListener;
+import com.nc.kmr.localize.estimator.event.common.CreditsPresenter;
 import com.nc.kmr.localize.estimator.filefilter.AllSupportedFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.PropertiesFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSFileFilter;

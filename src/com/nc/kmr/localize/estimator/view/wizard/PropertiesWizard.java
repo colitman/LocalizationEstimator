@@ -15,12 +15,12 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
-import com.nc.kmr.localize.estimator.event.AnalyzeButtonListener;
-import com.nc.kmr.localize.estimator.event.LOECalculationOptionListener;
-import com.nc.kmr.localize.estimator.event.PerformanceInputListener;
-import com.nc.kmr.localize.estimator.event.PrintValuesToConsoleOptionListener;
-import com.nc.kmr.localize.estimator.event.UniquesOptionActionListener;
-import com.nc.kmr.localize.estimator.event.WizardWindowListener;
+import com.nc.kmr.localize.estimator.event.common.AnalyzeButtonListener;
+import com.nc.kmr.localize.estimator.event.common.LOECalculationOptionListener;
+import com.nc.kmr.localize.estimator.event.common.PerformanceInputListener;
+import com.nc.kmr.localize.estimator.event.common.PrintValuesToConsoleOptionListener;
+import com.nc.kmr.localize.estimator.event.common.UniquesOptionActionListener;
+import com.nc.kmr.localize.estimator.event.common.WizardWindowListener;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 import com.nc.kmr.localize.estimator.view.Wizard;
 

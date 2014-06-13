@@ -1,4 +1,4 @@
-package com.nc.kmr.localize.estimator.event;
+package com.nc.kmr.localize.estimator.event.common;
 
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;

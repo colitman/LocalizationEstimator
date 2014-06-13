@@ -1,4 +1,4 @@
-package com.nc.kmr.localize.estimator.event;
+package com.nc.kmr.localize.estimator.event.common;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

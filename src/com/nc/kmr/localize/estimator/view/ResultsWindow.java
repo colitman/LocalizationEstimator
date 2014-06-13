@@ -14,7 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
-import com.nc.kmr.localize.estimator.event.CopyResultsToClipboardButtonActionListener;
+import com.nc.kmr.localize.estimator.event.common.CopyResultsToClipboardButtonActionListener;
 import com.nc.kmr.localize.estimator.impl.analyze.Analyzer;
 
 public class ResultsWindow extends JFrame implements Runnable {
