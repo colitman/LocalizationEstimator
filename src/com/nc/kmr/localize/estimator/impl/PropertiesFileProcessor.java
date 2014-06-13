@@ -57,7 +57,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public boolean setTarget(String target) {
+	public boolean setTarget(String... target) {
 		return true;
 	}
 

@@ -9,7 +9,7 @@ public interface FileProcessor {
 	public boolean isReady();
 	public Exception getNotReadyException();
 	public String[] getTargets();
-	public boolean setTarget(String target);
+	public boolean setTarget(String... target);
 	public String getTarget();
 	public boolean setScope(String scope);
 	public String getScope();

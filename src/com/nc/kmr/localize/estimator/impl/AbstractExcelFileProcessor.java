@@ -38,7 +38,7 @@ public abstract class AbstractExcelFileProcessor implements FileProcessor {
 			return false;
 		}
 		
-		if(!scope.matches("([a-zA-Z]+[0-9]+:[a-zA-Z]+[0-9]+;?)+")) {
+		if(!scope.matches("([a-zA-Z]+[1-9][0-9]*:[a-zA-Z]+[1-9][0-9]*;?)+")) {
 			range = null;
 			return false;
 		}

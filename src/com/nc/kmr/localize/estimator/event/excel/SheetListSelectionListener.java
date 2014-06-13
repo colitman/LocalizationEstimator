@@ -1,6 +1,7 @@
 package com.nc.kmr.localize.estimator.event.excel;
 
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JList;
@@ -23,7 +24,10 @@ public class SheetListSelectionListener implements ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
-			if(!processor.setTarget(sheetList.getSelectedValue())) {
+			List<String> selectedList = sheetList.getSelectedValuesList();
+			String[] selectedSheets = selectedList.toArray(new String[selectedList.size()]);
+			
+			if(!processor.setTarget(selectedSheets)) {
 				sheetList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED, new Color(255,0,0), new Color(130,0,0)));
 			} else {
 				sheetList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED));

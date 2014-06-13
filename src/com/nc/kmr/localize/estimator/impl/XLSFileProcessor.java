@@ -19,6 +19,7 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 	
 	private Workbook book;
 	private Sheet sheet;
+	private List<Sheet> targets;
 	
 	private List<Point[]> sectors;
 
@@ -44,22 +45,31 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 
 
 	@Override
-	public boolean setTarget(String target) {
-		sheet = book.getSheet(target);
+	public boolean setTarget(String... target) {
+		targets = new ArrayList<Sheet>();
 		
-		if(sheet != null) {
-			return true;
+		for(String sheet:target) {
+			Sheet s = book.getSheet(sheet);
+			
+			if(s == null) {
+				targets = null;
+				return false;
+			}
+			
+			targets.add(s);
 		}
 		
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getTarget() {
 		String sheetName = null;
 		
-		if(sheet != null) {
-			sheetName = sheet.getName();
+		if(targets != null) {
+			for(Sheet s:targets) {
+				sheetName = (sheetName == null)? s.getName(): sheetName + ", " + s.getName();
+			}
 		}
 		
 		return sheetName;
@@ -68,28 +78,32 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 	@Override
 	public List<String> process() throws InvalidInputException {
 		content = new ArrayList<String>();
-		if(ready && sheet != null && range != null) {
-			processRange();
-		} else {
+		if(!ready || targets == null || range == null) {
 			return content;
 		}
 		
-		Cell cell = null;
-		String cellContent = null;
-		
-		if(sectors != null) {
-			Set<String> processed = new HashSet<String>();
-			for(Point[] sector:sectors) {
-				for(int i = sector[0].col; i <= sector[1].col; i++) {
-					for(int j = sector[0].row; j <= sector[1].row; j++) {
-						String cellCoord = String.valueOf(i) + "_" + String.valueOf(j);
-						if(!processed.add(cellCoord)) {
-							continue;
-						}
-						cell = sheet.getCell(i, j);
-						cellContent = cell.getContents();
-						if(cellContent != null && !cellContent.isEmpty()) {
-							content.add(cellContent);
+		for(Sheet s:targets) {
+			sheet = s;
+			
+			processRange();
+			
+			Cell cell = null;
+			String cellContent = null;
+			
+			if(sectors != null) {
+				Set<String> processed = new HashSet<String>();
+				for(Point[] sector:sectors) {
+					for(int i = sector[0].col; i <= sector[1].col; i++) {
+						for(int j = sector[0].row; j <= sector[1].row; j++) {
+							String cellCoord = String.valueOf(i) + "_" + String.valueOf(j);
+							if(!processed.add(cellCoord)) {
+								continue;
+							}
+							cell = sheet.getCell(i, j);
+							cellContent = cell.getContents();
+							if(cellContent != null && !cellContent.isEmpty()) {
+								content.add(cellContent);
+							}
 						}
 					}
 				}
@@ -123,8 +137,12 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 		Point upLeft = new Point(ExcelUtils.convertCellAddressToIntArray(upLeftCell));
 		Point downRight = new Point(ExcelUtils.convertCellAddressToIntArray(downRightCell));
 		
-		if(upLeft.col >= cols || upLeft.row >= rows) {
-			throw new InvalidInputException("There is no data in the specified range: " + range);
+		if(upLeft.col >= cols) {
+			upLeft.col = (cols == 0)? cols:cols - 1;
+		}
+		
+		if(upLeft.row >= rows) {
+			upLeft.row = (rows == 0)? rows:rows - 1;
 		}
 		
 		if(downRight.col >= cols) {

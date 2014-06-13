@@ -9,7 +9,7 @@ public class ExcelUtils {
 		int row = Integer.valueOf(cellAddress.replaceAll("[a-zA-Z]", ""));
 		
 		address[0] = letter2Int(col);
-		address[1] = row - 1;
+		address[1] = (row == 0)? row:row - 1;
 		
 		return address;
 	}

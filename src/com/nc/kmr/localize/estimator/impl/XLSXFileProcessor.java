@@ -30,6 +30,7 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 	private WorksheetPart sheetPart;
 	private Workbook book;
 	private Sheet sheet;
+	private List<Sheet> targets;
 	private List<Sheet> sheetList;
 
 	public XLSXFileProcessor(File[] files) {
@@ -57,24 +58,39 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 	}
 
 	@Override
-	public boolean setTarget(String target) {
-		for(Sheet s:sheetList) {
-			if(s.getName().equals(target)) {
-				sheet = s;
-				return true;
+	public boolean setTarget(String... target) {
+		targets = new ArrayList<Sheet>();
+		
+		boolean flag = false;
+		
+		for(String sheetName:target) {
+			for(Sheet s:sheetList) {
+				if(s.getName().equals(sheetName)) {
+					flag = true;
+					targets.add(s);
+					break;
+				} else {
+					flag = false;
+				}
+			}
+			
+			if(!flag) {
+				targets = null;
+				return false;
 			}
 		}
 		
-		sheet = null;
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getTarget() {
 		String sheetName = null;
 		
-		if(sheet != null) {
-			sheetName = sheet.getName();
+		if(targets != null) {
+			for(Sheet s:targets) {
+				sheetName = (sheetName == null)? s.getName(): sheetName + ", " + s.getName();
+			}
 		}
 		
 		return sheetName;
@@ -84,6 +100,7 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 	public void releaseResource() {
 		book = null;
 		sheet = null;
+		targets = null;
 		sheetList = null;
 		pg = null;
 		bookPart = null;
@@ -94,7 +111,7 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 	public List<String> process() throws InvalidInputException {
 		content = new ArrayList<String>();
 		
-		if(!ready || sheet == null || range == null) {
+		if(!ready || targets == null || range == null) {
 			return content;
 		}
 		
@@ -110,45 +127,50 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 		
 		List<Row> rows;
 		
-		try {
-			sheetPart = bookPart.getWorksheet(sheetList.indexOf(sheet));
-		} catch (Xlsx4jException e) {
-			// TODO Add logging
-			e.printStackTrace();
-		}
-		rows = sheetPart.getContents().getSheetData().getRow();
-		
-		Set<String> processed = new HashSet<String>();
-		String cellContent = "";
-		
-		for(String area:ranges) {
-			String upLeftCell = area.split(":")[0];
-			String downRightCell = area.split(":")[1];
+		for(Sheet s:targets) {
 			
-			Long upRow = Long.valueOf(upLeftCell.replaceAll("[a-zA-Z]", ""));
-			Long downRow = Long.valueOf(downRightCell.replaceAll("[a-zA-Z]", ""));
-			int leftCol = ExcelUtils.getIndexOfColumn(upLeftCell.replaceAll("[0-9]", ""));
-			int rightCol = ExcelUtils.getIndexOfColumn(downRightCell.replaceAll("[0-9]", ""));
+			sheet = s;
+			
+			try {
+				sheetPart = bookPart.getWorksheet(sheetList.indexOf(sheet));
+			} catch (Xlsx4jException e) {
+				// TODO Add logging
+				e.printStackTrace();
+			}
+			rows = sheetPart.getContents().getSheetData().getRow();
+			
+			Set<String> processed = new HashSet<String>();
+			String cellContent = "";
+			
+			for(String area:ranges) {
+				String upLeftCell = area.split(":")[0];
+				String downRightCell = area.split(":")[1];
 				
-			for(Row r:rows) {
-				Long rowNum = r.getR();
-				if(rowNum >= upRow && rowNum <= downRow) {
-					List<Cell> cells = r.getC();
-					for(Cell c:cells) {
-						int colNum = ExcelUtils.getIndexOfColumn(c.getR().replaceAll("[0-9]", ""));
-						if(colNum >= leftCol && colNum <= rightCol) {
-							if(!processed.add(c.getR())) {
-								continue;
-							}
-							
-							if(c.getT().equals(STCellType.S)) {
-								cellContent = sharedStrings.getJaxbElement().getSi().get(Integer.parseInt(c.getV())).getT().getValue();
-							} else if(c.getT().equals(STCellType.N)) {
-								cellContent = c.getV();
-							}
-							
-							if(cellContent != null && !cellContent.isEmpty()) {
-								content.add(cellContent);
+				Long upRow = Long.valueOf(upLeftCell.replaceAll("[a-zA-Z]", ""));
+				Long downRow = Long.valueOf(downRightCell.replaceAll("[a-zA-Z]", ""));
+				int leftCol = ExcelUtils.getIndexOfColumn(upLeftCell.replaceAll("[0-9]", ""));
+				int rightCol = ExcelUtils.getIndexOfColumn(downRightCell.replaceAll("[0-9]", ""));
+					
+				for(Row r:rows) {
+					Long rowNum = r.getR();
+					if(rowNum >= upRow && rowNum <= downRow) {
+						List<Cell> cells = r.getC();
+						for(Cell c:cells) {
+							int colNum = ExcelUtils.getIndexOfColumn(c.getR().replaceAll("[0-9]", ""));
+							if(colNum >= leftCol && colNum <= rightCol) {
+								if(!processed.add(c.getR())) {
+									continue;
+								}
+								
+								if(c.getT().equals(STCellType.S)) {
+									cellContent = sharedStrings.getJaxbElement().getSi().get(Integer.parseInt(c.getV())).getT().getValue();
+								} else if(c.getT().equals(STCellType.N)) {
+									cellContent = c.getV();
+								}
+								
+								if(cellContent != null && !cellContent.isEmpty()) {
+									content.add(cellContent);
+								}
 							}
 						}
 					}

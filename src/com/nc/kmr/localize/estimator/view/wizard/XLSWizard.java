@@ -24,6 +24,8 @@ import com.nc.kmr.localize.estimator.event.common.PerformanceInputListener;
 import com.nc.kmr.localize.estimator.event.common.UniquesOptionActionListener;
 import com.nc.kmr.localize.estimator.event.common.WizardWindowListener;
 import com.nc.kmr.localize.estimator.event.excel.RangeInputCaretListener;
+import com.nc.kmr.localize.estimator.event.excel.SelectAllCellsActionListener;
+import com.nc.kmr.localize.estimator.event.excel.SelectAllSheetsActionListener;
 import com.nc.kmr.localize.estimator.event.excel.SheetListSelectionListener;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 import com.nc.kmr.localize.estimator.view.Wizard;
@@ -35,7 +37,9 @@ public class XLSWizard extends JFrame implements Wizard {
 	private FileProcessor processor;
 	private AnalyzerBuilder builder;
 	private JList<String> sheetList;
+	private JCheckBox allSheets;
 	private JTextField rangeInput;
+	private JCheckBox allCells;
 	private JCheckBox showUniques;
 	private JCheckBox calculateLOE;
 	private JTextField performanceInput;
@@ -79,16 +83,20 @@ public class XLSWizard extends JFrame implements Wizard {
 		sheetChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Sheet"));
 		sheetChoiceDesc = new JLabel("Select a sheet for analyzing:");
 		sheetList = new JList<String>(processor.getTargets());
-		sheetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		sheetList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		sheetList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED));
 		sheetList.getSelectionModel().addListSelectionListener(new SheetListSelectionListener(processor, sheetList));
 		sheetList.setSelectedIndex(0);
+		allSheets = new JCheckBox("Select all sheets");
+		allSheets.addActionListener(new SelectAllSheetsActionListener(sheetList));
 		
 		rangeChoicePanel = new JPanel();
 		rangeChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Range"));
 		rangeChoiceDesc = new JLabel("Select range for analyzing:");
 		rangeInput = new JTextField();
 		rangeInput.addCaretListener(new RangeInputCaretListener(processor));
+		allCells = new JCheckBox("Select all cells");
+		allCells.addActionListener(new SelectAllCellsActionListener(rangeInput));
 		
 		optionsChoicePanel = new JPanel();
 		optionsChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Options"));
@@ -169,6 +177,7 @@ public class XLSWizard extends JFrame implements Wizard {
 				.addGroup(rangePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 						.addComponent(rangeChoiceDesc)
 						.addComponent(rangeInput, 130, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+						.addComponent(allCells)
 				)
 		);
 		
@@ -177,6 +186,7 @@ public class XLSWizard extends JFrame implements Wizard {
 					.addComponent(rangeChoiceDesc)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(rangeInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(allCells)
 		);
 		
 		
@@ -190,6 +200,7 @@ public class XLSWizard extends JFrame implements Wizard {
 				.addGroup(sheetPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 						.addComponent(sheetChoiceDesc)
 						.addComponent(sheetList, 130, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+						.addComponent(allSheets)
 				)
 		);
 		
@@ -198,6 +209,7 @@ public class XLSWizard extends JFrame implements Wizard {
 					.addComponent(sheetChoiceDesc)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(sheetList)
+					.addComponent(allSheets)
 		);
 		
 		
