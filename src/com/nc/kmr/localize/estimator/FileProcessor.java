@@ -15,6 +15,8 @@ public interface FileProcessor {
 	public String getScope();
 	public String getFileName();
 	public String getSimpleFileName();
+	public boolean setScopeProcessingMode(int processingMode);
+	public int getScopeProcessingMode();
 	public List<String> process() throws InvalidInputException;
 	public void releaseResource();
 }
