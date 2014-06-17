@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.exception.InvalidInputException;
+import com.nc.kmr.localize.estimator.util.Utils;
 
 public class PropertiesFileProcessor implements FileProcessor {
 	
@@ -19,6 +20,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 	private Exception fileNotReadyException;
 	private Properties[] props;
 	private List<String> content;
+	private int processingMode = -10000;
 
 	private String scope = "";
 
@@ -69,8 +71,6 @@ public class PropertiesFileProcessor implements FileProcessor {
 	@Override
 	public boolean setScope(String scope) {
 		
-		//	^(\w+\.?)+=    Regexp for keys filtration
-		
 		if(scope == null) {
 			this.scope = null;
 			return false;
@@ -81,13 +81,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 			return true;
 		}
 		
-		if(!scope.matches("(\\w+\\.?)+")) {
-			this.scope = null;
-			return false;
-		}
-		
 		this.scope = scope;
-		
 		return true;
 	}
 
@@ -128,6 +122,22 @@ public class PropertiesFileProcessor implements FileProcessor {
 		
 		return name;
 	}
+	
+	@Override
+	public boolean setScopeProcessingMode(int processingMode) {
+		if(processingMode < -1 || processingMode > 1) {
+			this.processingMode = -10000;
+			return false;
+		}
+		
+		this.processingMode = processingMode;
+		return true;
+	}
+	
+	@Override
+	public int getScopeProcessingMode() {
+		return processingMode;
+	}
 
 	@Override
 	public List<String> process() throws InvalidInputException {		
@@ -137,14 +147,28 @@ public class PropertiesFileProcessor implements FileProcessor {
 		}
 		
 		String value = "";
-		Enumeration<Object> values;
+		Set<String> keys;
 		
 		for(Properties prop:props) {
-			for(values = prop.elements(); values.hasMoreElements();) {
-				value = (String) values.nextElement();
+			keys = prop.stringPropertyNames();
+			for(String key:keys) {
+				if(processingMode == Utils.NO_SCOPE_DEFINED || scope.isEmpty()) {
+					value = prop.getProperty(key);
+				} else if(processingMode == Utils.INCLUDE_SCOPE) {
+					if(key.contains(scope)) {
+						value = prop.getProperty(key);
+					}
+				} else if (processingMode == Utils.EXCLUDE_SCOPE) {
+					if(!key.contains(scope)) {
+						value = prop.getProperty(key);
+					}
+				}
+				
 				if(value != null && !value.isEmpty()) {
 					content.add(value);
 				}
+				
+				value = "";
 			}
 		}
 		

@@ -71,6 +71,18 @@ public abstract class AbstractExcelFileProcessor implements FileProcessor {
 	public String getSimpleFileName() {
 		return file.getName();
 	}
+	
+	@Override
+	public boolean setScopeProcessingMode(int processingMode) {
+		//Not applicable for this type of files. Yet...
+		return true;
+	}
+	
+	@Override
+	public int getScopeProcessingMode() {
+		//Not applicable for this type of files. Yet...
+		return -100000;
+	}
 
 	abstract protected void init();
 

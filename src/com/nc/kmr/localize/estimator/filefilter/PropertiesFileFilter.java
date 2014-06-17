@@ -16,8 +16,8 @@ public class PropertiesFileFilter extends FileFilter {
 		
 		String fileType = Utils.getFileType(f);
 		
-		if("properties".equals(fileType) || "ini".equals(fileType)
-				 						|| "lng".equals(fileType)) {
+		if("properties".equals(fileType) /*|| "ini".equals(fileType)
+				 						|| "lng".equals(fileType)*/) {
 			return true;
 		}
 		
@@ -26,7 +26,7 @@ public class PropertiesFileFilter extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return "Key-Value files (*.properties, *.ini, *.lng, etc.)";
+		return "Java property files (*.properties)"/*, *.ini, *.lng, etc.)"*/;
 	}
 
 }
