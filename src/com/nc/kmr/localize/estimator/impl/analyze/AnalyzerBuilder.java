@@ -40,6 +40,10 @@ public class AnalyzerBuilder {
 		analyzer.setPerformance(this.performance);
 	}
 	
+	public String getRequestedPerformance() {
+		return String.valueOf(performance);
+	}
+	
 	public boolean isPrintToConsole() {
 		return printToConsole;
 	}

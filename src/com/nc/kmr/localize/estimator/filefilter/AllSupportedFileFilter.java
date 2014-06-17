@@ -16,8 +16,8 @@ public class AllSupportedFileFilter extends FileFilter {
 		
 		String fileType = Utils.getFileType(f);
 		
-		if("properties".equals(fileType) || "ini".equals(fileType)
-				 						|| "lng".equals(fileType)
+		if("properties".equals(fileType)/* || "ini".equals(fileType)
+				 						|| "lng".equals(fileType)*/
 				 						|| "xls".equals(fileType)
 				 						|| "xlsx".equals(fileType)) {
 			return true;
