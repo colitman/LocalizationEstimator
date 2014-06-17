@@ -21,8 +21,6 @@ public class PropertiesFileProcessor implements FileProcessor {
 	private Properties[] props;
 	private List<String> content;
 	private int processingMode = -10000;
-	
-//	private boolean mode;
 
 	private String scope = "";
 
@@ -73,9 +71,6 @@ public class PropertiesFileProcessor implements FileProcessor {
 	@Override
 	public boolean setScope(String scope) {
 		
-		//	^(\w+\.?)+=    	Regexp for keys filtration
-		// (\\w+\\.?)+		Regexp for scope validation
-		
 		if(scope == null) {
 			this.scope = null;
 			return false;
@@ -85,17 +80,6 @@ public class PropertiesFileProcessor implements FileProcessor {
 			this.scope = "";
 			return true;
 		}
-		
-//		if(!scope.matches("\\w{7}::\\w*")) {
-//			this.scope = null;
-//			return false;
-//		}
-//		
-//		this.scope = scope.substring(9);
-//		
-//		mode = (scope.substring(0, 7).equals("INCLUDE"))? true:false;
-//		
-//		System.out.println(this.scope + "-" + mode);
 		
 		this.scope = scope;
 		return true;
