@@ -117,17 +117,17 @@ public class MainWindow extends JFrame implements Runnable {
 		keyValueFilesPanelLayout.setHorizontalGroup(
 				keyValueFilesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(properties)
-				//.addComponent(ini)
-				//.addComponent(lng)
+				.addComponent(ini)
+				.addComponent(lng)
 		);
 		
 		keyValueFilesPanelLayout.setVerticalGroup(
 				keyValueFilesPanelLayout.createSequentialGroup()
 				.addComponent(properties)
-				//.addGap(0)
-				//.addComponent(ini)
-				//.addGap(0)
-				//.addComponent(lng)
+				.addGap(0)
+				.addComponent(ini)
+				.addGap(0)
+				.addComponent(lng)
 		);
 		
 		

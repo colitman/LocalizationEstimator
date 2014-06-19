@@ -1,21 +1,21 @@
-package com.nc.kmr.localize.estimator.event.excel;
+package com.nc.kmr.localize.estimator.event.common;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JList;
 
-public class SelectAllSheetsActionListener implements ActionListener {
+public class SelectAllTargetsActionListener implements ActionListener {
 
 	private JList<String> list;
 
-	public SelectAllSheetsActionListener(JList<String> sheetList) {
-		this.list = sheetList;
+	public SelectAllTargetsActionListener(JList<String> list) {
+		this.list = list;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		list.setEnabled(!list.isEnabled());
+		//list.setEnabled(!list.isEnabled());
 		int sheetsCount = list.getModel().getSize();
 		
 		int[] indexes = new int[sheetsCount];

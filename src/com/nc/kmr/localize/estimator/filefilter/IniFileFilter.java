@@ -6,7 +6,7 @@ import javax.swing.filechooser.FileFilter;
 
 import com.nc.kmr.localize.estimator.util.Utils;
 
-public class AllSupportedFileFilter extends FileFilter {
+public class IniFileFilter extends FileFilter {
 
 	@Override
 	public boolean accept(File f) {
@@ -16,10 +16,7 @@ public class AllSupportedFileFilter extends FileFilter {
 		
 		String fileType = Utils.getFileType(f);
 		
-		if("properties".equals(fileType) || "ini".equals(fileType)
-				 						|| "lng".equals(fileType)
-				 						|| "xls".equals(fileType)
-				 						|| "xlsx".equals(fileType)) {
+		if("ini".equals(fileType) || "lng".equals(fileType)) {
 			return true;
 		}
 		
@@ -28,7 +25,7 @@ public class AllSupportedFileFilter extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return "All supported file types";
+		return "Key-value configuration files (*.ini, *.lng)";
 	}
 
 }

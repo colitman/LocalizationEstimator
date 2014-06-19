@@ -1,4 +1,4 @@
-package com.nc.kmr.localize.estimator.event.excel;
+package com.nc.kmr.localize.estimator.event.common;
 
 import java.awt.Color;
 import java.util.List;
@@ -11,26 +11,26 @@ import javax.swing.event.ListSelectionListener;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
 
-public class SheetListSelectionListener implements ListSelectionListener {
+public class TargetsListSelectionListener implements ListSelectionListener {
 
 	private FileProcessor processor;
-	private JList<String> sheetList;
+	private JList<String> list;
 
-	public SheetListSelectionListener(FileProcessor processor, JList<String> sheetList) {
+	public TargetsListSelectionListener(FileProcessor processor, JList<String> list) {
 		this.processor = processor;
-		this.sheetList = sheetList;
+		this.list = list;
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
-			List<String> selectedList = sheetList.getSelectedValuesList();
+			List<String> selectedList = list.getSelectedValuesList();
 			String[] selectedSheets = selectedList.toArray(new String[selectedList.size()]);
 			
 			if(!processor.setTarget(selectedSheets)) {
-				sheetList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED, new Color(255,0,0), new Color(130,0,0)));
+				list.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED, new Color(255,0,0), new Color(130,0,0)));
 			} else {
-				sheetList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED));
+				list.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED));
 			}
 		}
 	}

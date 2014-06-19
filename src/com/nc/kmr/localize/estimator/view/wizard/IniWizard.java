@@ -2,8 +2,10 @@ package com.nc.kmr.localize.estimator.view.wizard;
 
 import java.awt.Color;
 import java.awt.Dialog.ModalExclusionType;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -11,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
@@ -21,47 +25,54 @@ import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.event.common.AnalyzeButtonListener;
 import com.nc.kmr.localize.estimator.event.common.LOECalculationOptionListener;
 import com.nc.kmr.localize.estimator.event.common.PerformanceInputListener;
+import com.nc.kmr.localize.estimator.event.common.PrintValuesToConsoleOptionListener;
 import com.nc.kmr.localize.estimator.event.common.SelectAllTargetsActionListener;
 import com.nc.kmr.localize.estimator.event.common.TargetsListSelectionListener;
 import com.nc.kmr.localize.estimator.event.common.UniquesOptionActionListener;
 import com.nc.kmr.localize.estimator.event.common.WizardWindowListener;
-import com.nc.kmr.localize.estimator.event.excel.RangeInputCaretListener;
-import com.nc.kmr.localize.estimator.event.excel.SelectAllCellsActionListener;
+import com.nc.kmr.localize.estimator.event.prop.PropertiesScopeInputCaretListener;
+import com.nc.kmr.localize.estimator.event.prop.PropertiesScopeOptionListener;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 import com.nc.kmr.localize.estimator.view.Wizard;
 
-public class XLSWizard extends JFrame implements Wizard {
-	
-	private static final long serialVersionUID = 1L;
+public class IniWizard extends JFrame implements Wizard {
+
+private static final long serialVersionUID = 1L;
 	
 	private FileProcessor processor;
 	private AnalyzerBuilder builder;
-	private JList<String> sheetList;
-	private JCheckBox allSheets;
-	private JTextField rangeInput;
-	private JCheckBox allCells;
+	
+	private JRadioButton noScope;
+	private JRadioButton includeScope;
+	private JRadioButton excludeScope;
+	private ButtonGroup scopeGroup;
+	private JList<String> categoryList;
+	private JScrollPane catScroll;
+	private JCheckBox allCategories;
+	private JTextField scopeInput;
 	private JCheckBox showUniques;
 	private JCheckBox calculateLOE;
+	private JCheckBox printToConsole;
 	private JTextField performanceInput;
 	private JButton analyzeButton;
 	
-	
 	private GroupLayout globalLayout;
-	private GroupLayout sheetPanelLayout;
-	private GroupLayout rangePanelLayout;
+	private GroupLayout targetPanelLayout;
+	private GroupLayout scopePanelLayout;
 	private GroupLayout optionsPanelLayout;
 	private GroupLayout buttonsPanelLayout;
 	
-	private JPanel sheetChoicePanel;
-	private JPanel rangeChoicePanel;
+	private JPanel targetChoicePanel;
+	private JPanel scopeChoicePanel;
 	private JPanel optionsChoicePanel;
 	private JPanel buttonsPanel;
 	
-	private JLabel sheetChoiceDesc;
-	private JLabel rangeChoiceDesc;
+	private JLabel targetChoiceLabel;
+	private JLabel scopeChoiceLabel;
 	private JLabel performanceUnits;
 
-	public XLSWizard(FileProcessor processor) {
+
+	public IniWizard(FileProcessor processor) {
 		this.processor = processor;
 	}
 
@@ -70,33 +81,48 @@ public class XLSWizard extends JFrame implements Wizard {
 		builder = new AnalyzerBuilder();
 		createGUI();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setTitle("MS Excel file estimator wizard");
+		setTitle("Key-Value (ini, lng) file estimator wizard");
 		setLocationRelativeTo(null);
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		pack();
 		setVisible(true);
 		setMinimumSize(getPreferredSize());
 	}
-	
+
 	private void createGUI() {
-		sheetChoicePanel = new JPanel();
-		sheetChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Sheet"));
-		sheetChoiceDesc = new JLabel("Select a sheet for analyzing:");
-		sheetList = new JList<String>(processor.getTargets());
-		sheetList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		sheetList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED));
-		sheetList.getSelectionModel().addListSelectionListener(new TargetsListSelectionListener(processor, sheetList));
-		sheetList.setSelectedIndex(0);
-		allSheets = new JCheckBox("Select all sheets");
-		allSheets.addActionListener(new SelectAllTargetsActionListener(sheetList));
 		
-		rangeChoicePanel = new JPanel();
-		rangeChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Range"));
-		rangeChoiceDesc = new JLabel("Select range for analyzing:");
-		rangeInput = new JTextField();
-		rangeInput.addCaretListener(new RangeInputCaretListener(processor));
-		allCells = new JCheckBox("Select all cells");
-		allCells.addActionListener(new SelectAllCellsActionListener(rangeInput));
+		targetChoicePanel = new JPanel();
+		targetChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Categories"));
+		targetChoiceLabel = new JLabel("Select a category(-ies) for analyzing:");
+		categoryList = new JList<String>(processor.getTargets());
+		catScroll = new JScrollPane(categoryList);
+		categoryList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		categoryList.setBorder(BorderFactory.createSoftBevelBorder(BevelBorder.LOWERED));
+		categoryList.getSelectionModel().addListSelectionListener(new TargetsListSelectionListener(processor, categoryList));
+		categoryList.setSelectedIndex(0);
+		allCategories = new JCheckBox("Select all categories");
+		allCategories.addActionListener(new SelectAllTargetsActionListener(categoryList));
+		
+		scopeChoicePanel = new JPanel();
+		scopeChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Scope"));
+		scopeGroup = new ButtonGroup();
+		noScope = new JRadioButton("Process all entries");
+		includeScope = new JRadioButton("Include only");
+		excludeScope = new JRadioButton("Exclude");
+		noScope.setActionCommand("NO_SCOPE");
+		includeScope.setActionCommand("INCLUDE");
+		excludeScope.setActionCommand("EXCLUDE");
+		scopeGroup.add(noScope);
+		scopeGroup.add(includeScope);
+		scopeGroup.add(excludeScope);
+		scopeInput = new JTextField();
+		scopeChoiceLabel = new JLabel("Specify sample for selecting keys (case-sensitive):");
+		scopeInput.addCaretListener(new PropertiesScopeInputCaretListener(processor));
+		ActionListener scopeListener = new PropertiesScopeOptionListener(processor, scopeInput, scopeChoiceLabel);
+		noScope.addActionListener(scopeListener);
+		includeScope.addActionListener(scopeListener);
+		excludeScope.addActionListener(scopeListener);
+		noScope.doClick();
 		
 		optionsChoicePanel = new JPanel();
 		optionsChoicePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Options"));
@@ -107,8 +133,10 @@ public class XLSWizard extends JFrame implements Wizard {
 		performanceUnits = new JLabel("symbols per day");
 		performanceInput.setEnabled(false);
 		performanceUnits.setEnabled(false);
+		printToConsole = new JCheckBox("Print values to console");
 		performanceInput.addCaretListener(new PerformanceInputListener(builder));
 		calculateLOE.addActionListener(new LOECalculationOptionListener(builder, performanceInput, performanceUnits));
+		printToConsole.addActionListener(new PrintValuesToConsoleOptionListener(builder));
 		
 		buttonsPanel = new JPanel();
 		analyzeButton = new JButton("Analyze");
@@ -119,7 +147,7 @@ public class XLSWizard extends JFrame implements Wizard {
 		layoutComponents();
 	}
 
-	private void layoutComponents() {
+	private void layoutComponents() {		
 		buttonsPanelLayout = new GroupLayout(buttonsPanel);
 		buttonsPanel.setLayout(buttonsPanelLayout);
 		buttonsPanelLayout.setAutoCreateContainerGaps(true);
@@ -153,6 +181,7 @@ public class XLSWizard extends JFrame implements Wizard {
 						.addComponent(performanceInput)
 						.addComponent(performanceUnits)
 					)
+					.addComponent(printToConsole)
 				)
 		);
 		
@@ -164,54 +193,59 @@ public class XLSWizard extends JFrame implements Wizard {
 					.addComponent(performanceInput)
 					.addComponent(performanceUnits)
 				)
+				.addComponent(printToConsole)
 		);
 		
 		
-		rangePanelLayout = new GroupLayout(rangeChoicePanel);
-		rangeChoicePanel.setLayout(rangePanelLayout);
-		rangePanelLayout.setAutoCreateContainerGaps(true);
-		rangePanelLayout.setAutoCreateGaps(true);
+		scopePanelLayout = new GroupLayout(scopeChoicePanel);
+		scopeChoicePanel.setLayout(scopePanelLayout);
+		scopePanelLayout.setAutoCreateContainerGaps(true);
+		scopePanelLayout.setAutoCreateGaps(true);
 		
-		rangePanelLayout.setHorizontalGroup(
-				rangePanelLayout.createSequentialGroup()
-				.addGroup(rangePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addComponent(rangeChoiceDesc)
-						.addComponent(rangeInput, 130, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
-						.addComponent(allCells)
+		scopePanelLayout.setHorizontalGroup(
+				scopePanelLayout.createSequentialGroup()
+				.addGroup(scopePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(noScope)
+						.addComponent(includeScope)
+						.addComponent(excludeScope)
+						.addComponent(scopeChoiceLabel)
+						.addComponent(scopeInput, 130, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
 				)
 		);
 		
-		rangePanelLayout.setVerticalGroup(
-				rangePanelLayout.createSequentialGroup()
-					.addComponent(rangeChoiceDesc)
+		scopePanelLayout.setVerticalGroup(
+				scopePanelLayout.createSequentialGroup()
+					.addComponent(noScope)
+					.addComponent(includeScope)
+					.addComponent(excludeScope)
+					.addComponent(scopeChoiceLabel)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(rangeInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addComponent(allCells)
+					.addComponent(scopeInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		);
 		
 		
-		sheetPanelLayout = new GroupLayout(sheetChoicePanel);
-		sheetChoicePanel.setLayout(sheetPanelLayout);
-		sheetPanelLayout.setAutoCreateContainerGaps(true);
-		sheetPanelLayout.setAutoCreateGaps(true);
 		
-		sheetPanelLayout.setHorizontalGroup(
-			sheetPanelLayout.createSequentialGroup()
-				.addGroup(sheetPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addComponent(sheetChoiceDesc)
-						.addComponent(sheetList, 130, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
-						.addComponent(allSheets)
+		targetPanelLayout = new GroupLayout(targetChoicePanel);
+		targetChoicePanel.setLayout(targetPanelLayout);
+		targetPanelLayout.setAutoCreateContainerGaps(true);
+		targetPanelLayout.setAutoCreateGaps(true);
+		
+		targetPanelLayout.setHorizontalGroup(
+			targetPanelLayout.createSequentialGroup()
+				.addGroup(targetPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(targetChoiceLabel)
+						.addComponent(catScroll, 130, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+						.addComponent(allCategories)
 				)
 		);
 		
-		sheetPanelLayout.setVerticalGroup(
-				sheetPanelLayout.createSequentialGroup()
-					.addComponent(sheetChoiceDesc)
+		targetPanelLayout.setVerticalGroup(
+				targetPanelLayout.createSequentialGroup()
+					.addComponent(targetChoiceLabel)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(sheetList)
-					.addComponent(allSheets)
+					.addComponent(catScroll)
+					.addComponent(allCategories)
 		);
-		
 		
 		
 		globalLayout = new GroupLayout(this.getContentPane());
@@ -223,9 +257,9 @@ public class XLSWizard extends JFrame implements Wizard {
 			globalLayout.createSequentialGroup()
 				.addGroup(globalLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 					.addGroup(globalLayout.createSequentialGroup()
-						.addComponent(sheetChoicePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
-						.addComponent(rangeChoicePanel)
-						.addComponent(optionsChoicePanel)
+						.addComponent(targetChoicePanel)
+						.addComponent(scopeChoicePanel)
+						.addComponent(optionsChoicePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
 					)
 					.addComponent(buttonsPanel)
 				)
@@ -234,15 +268,16 @@ public class XLSWizard extends JFrame implements Wizard {
 		globalLayout.setVerticalGroup(
 			globalLayout.createSequentialGroup()
 				.addGroup(globalLayout.createParallelGroup(GroupLayout.Alignment.BASELINE, false)
-					.addComponent(sheetChoicePanel)
-					.addComponent(rangeChoicePanel)
+					.addComponent(targetChoicePanel)
+					.addComponent(scopeChoicePanel)
 					.addComponent(optionsChoicePanel)
 				)
 				.addComponent(buttonsPanel)
 		);
 		
 		optionsPanelLayout.linkSize(SwingConstants.HORIZONTAL, showUniques, performanceInput);
-		globalLayout.linkSize(SwingConstants.VERTICAL, sheetChoicePanel, rangeChoicePanel, optionsChoicePanel);
+		globalLayout.linkSize(SwingConstants.VERTICAL, targetChoicePanel, scopeChoicePanel, optionsChoicePanel);
+		
 	}
 
 }
