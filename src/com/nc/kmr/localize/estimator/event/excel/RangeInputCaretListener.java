@@ -20,6 +20,7 @@ public class RangeInputCaretListener implements CaretListener {
 	public void caretUpdate(CaretEvent e) {
 		JTextField field = (JTextField)e.getSource();
 		String input = field.getText();
+		
 		if(!processor.setScope(input)) {
 			field.setBackground(new Color(230,90,90));
 		} else {

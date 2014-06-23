@@ -20,6 +20,8 @@ import javax.swing.filechooser.FileFilter;
 import com.nc.kmr.localize.estimator.event.common.BrowseButtonListener;
 import com.nc.kmr.localize.estimator.event.common.CreditsPresenter;
 import com.nc.kmr.localize.estimator.filefilter.AllSupportedFileFilter;
+import com.nc.kmr.localize.estimator.filefilter.IniFileFilter;
+import com.nc.kmr.localize.estimator.filefilter.PPTFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.PropertiesFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSXFileFilter;
@@ -71,6 +73,8 @@ public class MainWindow extends JFrame implements Runnable {
 		chooser.addChoosableFileFilter(new XLSFileFilter());
 		chooser.addChoosableFileFilter(new XLSXFileFilter());
 		chooser.addChoosableFileFilter(new PropertiesFileFilter());
+		chooser.addChoosableFileFilter(new IniFileFilter());
+		chooser.addChoosableFileFilter(new PPTFileFilter());
 		chooser.setFileFilter(defFilter);
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setMultiSelectionEnabled(true);

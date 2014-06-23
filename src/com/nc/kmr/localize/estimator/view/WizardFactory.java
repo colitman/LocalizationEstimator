@@ -11,11 +11,13 @@ import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.exception.FileReadingException;
 import com.nc.kmr.localize.estimator.exception.UnsupportedFileTypeException;
 import com.nc.kmr.localize.estimator.impl.IniFileProcessor;
+import com.nc.kmr.localize.estimator.impl.PPTFileProcessor;
 import com.nc.kmr.localize.estimator.impl.PropertiesFileProcessor;
 import com.nc.kmr.localize.estimator.impl.XLSFileProcessor;
 import com.nc.kmr.localize.estimator.impl.XLSXFileProcessor;
 import com.nc.kmr.localize.estimator.util.Utils;
 import com.nc.kmr.localize.estimator.view.wizard.IniWizard;
+import com.nc.kmr.localize.estimator.view.wizard.PPWizard;
 import com.nc.kmr.localize.estimator.view.wizard.PropertiesWizard;
 import com.nc.kmr.localize.estimator.view.wizard.XLSWizard;
 
@@ -74,6 +76,7 @@ public class WizardFactory {
 		processors.put("properties", PropertiesFileProcessor.class);
 		processors.put("ini", IniFileProcessor.class);
 		processors.put("lng", IniFileProcessor.class);
+		processors.put("ppt", PPTFileProcessor.class);
 	}
 
 	private static void initWizards() {
@@ -83,5 +86,6 @@ public class WizardFactory {
 		wizards.put(XLSXFileProcessor.class, XLSWizard.class);
 		wizards.put(PropertiesFileProcessor.class, PropertiesWizard.class);
 		wizards.put(IniFileProcessor.class, IniWizard.class);
+		wizards.put(PPTFileProcessor.class, PPWizard.class);
 	}
 }
