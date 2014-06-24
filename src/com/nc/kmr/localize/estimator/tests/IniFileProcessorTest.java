@@ -139,7 +139,7 @@ public class IniFileProcessorTest extends TestCase {
 		assertTrue(p.setTarget("Credits"));
 		assertTrue(p.setScope("Scope"));
 		assertFalse(p.setScopeProcessingMode(-3));
-		assertEquals("Empty list should be returned if scope processing mode is nor correctly set", empty, p.process());
+		assertEquals("Empty list should be returned if scope processing mode is not correctly set", empty, p.process());
 		
 		assertTrue(p.setTarget("Credits"));
 		assertTrue(p.setScope(""));
