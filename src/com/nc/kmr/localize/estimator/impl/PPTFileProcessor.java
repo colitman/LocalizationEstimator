@@ -2,13 +2,10 @@ package com.nc.kmr.localize.estimator.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.apache.poi.hslf.model.Comment;
 import org.apache.poi.hslf.model.Notes;
 import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.model.TextRun;
@@ -16,7 +13,6 @@ import org.apache.poi.hslf.record.TextHeaderAtom;
 import org.apache.poi.hslf.usermodel.SlideShow;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
-import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 import com.nc.kmr.localize.estimator.util.Utils;
 
 public class PPTFileProcessor implements FileProcessor {
@@ -35,7 +31,7 @@ public class PPTFileProcessor implements FileProcessor {
 	private List<String> content;
 	
 	private Slide[] slides;
-	private Notes[] notes;
+//	private Notes[] notes;
 	private boolean wasEmpty = false;
 
 	public PPTFileProcessor(File[] files) {
@@ -49,7 +45,7 @@ public class PPTFileProcessor implements FileProcessor {
 			sh = new SlideShow(fis);
 			fis.close();
 			slides = sh.getSlides();
-			notes = sh.getNotes();
+//			notes = sh.getNotes();
 			setScope("");
 			ready = true;
 		} catch (IOException e) {
@@ -192,7 +188,7 @@ public class PPTFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public List<String> process() throws InvalidInputException {
+	public List<String> process() {
 		// TODO Auto-generated method stub
 		content = new ArrayList<String>();
 		if(!ready || !targetMode || scope == null) {

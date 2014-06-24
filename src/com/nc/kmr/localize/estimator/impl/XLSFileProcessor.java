@@ -12,7 +12,6 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
-import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 import com.nc.kmr.localize.estimator.util.ExcelUtils;
 
 public class XLSFileProcessor extends AbstractExcelFileProcessor {
@@ -76,7 +75,7 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 	}
 
 	@Override
-	public List<String> process() throws InvalidInputException {
+	public List<String> process() {
 		content = new ArrayList<String>();
 		if(!ready || targets == null || range == null) {
 			return content;
@@ -118,7 +117,7 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 		book.close();
 	}
 
-	private void processRange() throws InvalidInputException {
+	private void processRange() /*throws InvalidInputException */{
 		int cols = sheet.getColumns();
 		int rows = sheet.getRows();
 		
@@ -130,7 +129,7 @@ public class XLSFileProcessor extends AbstractExcelFileProcessor {
 		}
 	}
 
-	private void createSector(String range, int cols, int rows) throws InvalidInputException {
+	private void createSector(String range, int cols, int rows)/* throws InvalidInputException*/ {
 		String upLeftCell = range.split(":")[0];
 		String downRightCell = range.split(":")[1];
 		

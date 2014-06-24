@@ -33,20 +33,23 @@ public class MainWindow extends JFrame implements Runnable {
 	private JPanel mainPanel = new JPanel();
 	private JPanel descPanel = new JPanel();
 	private JPanel excelFilesPanel = new JPanel();
+	private JPanel ppFilesPanel = new JPanel();
 	private JPanel keyValueFilesPanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	
 	private JButton browseButton = new JButton("Browse file...");
 	private JFileChooser chooser = new JFileChooser();
 	
-	private JLabel line1 = new JLabel("Localization Estimator is intended to help translators estimate translation time for different pieces of text");
+	private JLabel line1 = new JLabel("Localization Estimator is intended to help translators estimate translation time for different pieces of text.");
 	private JLabel line2 = new JLabel("Supported file formats are as follows:");
 	private JLabel xls = new JLabel("- *.xls");
 	private JLabel xlsx = new JLabel("- *.xlsx");
+	private JLabel ppt = new JLabel("- *.ppt");
+//	private JLabel pptx = new JLabel("- *.pptx");
 	private JLabel properties = new JLabel("- *.properties");
 	private JLabel ini = new JLabel("- *.ini");
 	private JLabel lng = new JLabel("- *.lng");
-	private JLabel lastLine = new JLabel("Developed in NetCracker Knowledge Management and Research department");
+	private JLabel lastLine = new JLabel("Developed in NetCracker Knowledge Management and Research department.");
 	
 
 	@Override
@@ -72,9 +75,9 @@ public class MainWindow extends JFrame implements Runnable {
 		chooser.addChoosableFileFilter(defFilter);
 		chooser.addChoosableFileFilter(new XLSFileFilter());
 		chooser.addChoosableFileFilter(new XLSXFileFilter());
+		chooser.addChoosableFileFilter(new PPTFileFilter());
 		chooser.addChoosableFileFilter(new PropertiesFileFilter());
 		chooser.addChoosableFileFilter(new IniFileFilter());
-		chooser.addChoosableFileFilter(new PPTFileFilter());
 		chooser.setFileFilter(defFilter);
 		chooser.setAcceptAllFileFilterUsed(false);
 		chooser.setMultiSelectionEnabled(true);
@@ -86,6 +89,7 @@ public class MainWindow extends JFrame implements Runnable {
 		add(mainPanel, BorderLayout.CENTER);
 		
 		excelFilesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "MS Excel:"));
+		ppFilesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "MS PowerPoint:"));
 		keyValueFilesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Key-Value:"));
 
 		layoutComponents();
@@ -109,6 +113,27 @@ public class MainWindow extends JFrame implements Runnable {
 				.addComponent(xls)
 				.addGap(0)
 				.addComponent(xlsx)
+		);
+		
+		
+		
+		
+		GroupLayout ppFilesPanelLayout = new GroupLayout(ppFilesPanel);
+		ppFilesPanel.setLayout(ppFilesPanelLayout);
+		ppFilesPanelLayout.setAutoCreateContainerGaps(true);
+		ppFilesPanelLayout.setAutoCreateGaps(true);
+		
+		ppFilesPanelLayout.setHorizontalGroup(
+				ppFilesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(ppt)
+//				.addComponent(pptx)
+		);
+		
+		ppFilesPanelLayout.setVerticalGroup(
+			ppFilesPanelLayout.createSequentialGroup()
+				.addComponent(ppt)
+//				.addGap(0)
+//				.addComponent(pptx)
 		);
 		
 		
@@ -147,6 +172,7 @@ public class MainWindow extends JFrame implements Runnable {
 				.addComponent(line2)
 				.addGroup(descLayout.createSequentialGroup()
 					.addComponent(excelFilesPanel)
+					.addComponent(ppFilesPanel)
 					.addComponent(keyValueFilesPanel)
 				)
 				.addComponent(lastLine)
@@ -158,12 +184,14 @@ public class MainWindow extends JFrame implements Runnable {
 				.addComponent(line2)
 				.addGroup(descLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(excelFilesPanel)
+					.addComponent(ppFilesPanel)
 					.addComponent(keyValueFilesPanel)
 				)
 				.addComponent(lastLine)
 		);
 		
-		descLayout.linkSize(SwingConstants.VERTICAL, excelFilesPanel, keyValueFilesPanel);		
+		descLayout.linkSize(SwingConstants.VERTICAL, excelFilesPanel, ppFilesPanel, keyValueFilesPanel);
+		descLayout.linkSize(SwingConstants.HORIZONTAL, excelFilesPanel, ppFilesPanel, keyValueFilesPanel);
 		
 		
 		GroupLayout buttonLayout = new GroupLayout(buttonPanel);

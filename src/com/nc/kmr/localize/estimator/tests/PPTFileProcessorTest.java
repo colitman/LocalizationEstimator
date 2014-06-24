@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class PropertiesFileProcessorTest extends TestCase {
+public class PPTFileProcessorTest extends TestCase {
 	
 	@Test
 	public void testInstantiation() {

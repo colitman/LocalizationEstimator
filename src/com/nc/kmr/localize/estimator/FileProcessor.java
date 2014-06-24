@@ -2,8 +2,6 @@ package com.nc.kmr.localize.estimator;
 
 import java.util.List;
 
-import com.nc.kmr.localize.estimator.exception.InvalidInputException;
-
 public interface FileProcessor {
 	
 	public boolean isReady();
@@ -17,6 +15,6 @@ public interface FileProcessor {
 	public String getSimpleFileName();
 	public boolean setScopeProcessingMode(int processingMode);
 	public int getScopeProcessingMode();
-	public List<String> process() throws InvalidInputException;
+	public List<String> process();
 	public void releaseResource();
 }

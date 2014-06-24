@@ -9,7 +9,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
-import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 import com.nc.kmr.localize.estimator.util.Utils;
 
 public class PropertiesFileProcessor implements FileProcessor {
@@ -140,7 +139,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public List<String> process() throws InvalidInputException {		
+	public List<String> process() {		
 		content = new ArrayList<String>();
 		if(!ready || scope == null) {
 			return content;

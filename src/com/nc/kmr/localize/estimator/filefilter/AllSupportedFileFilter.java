@@ -19,7 +19,8 @@ public class AllSupportedFileFilter extends FileFilter {
 		if("properties".equals(fileType) || "ini".equals(fileType)
 				 						|| "lng".equals(fileType)
 				 						|| "xls".equals(fileType)
-				 						|| "xlsx".equals(fileType)) {
+				 						|| "xlsx".equals(fileType)
+				 						|| "ppt".equals(fileType)) {
 			return true;
 		}
 		

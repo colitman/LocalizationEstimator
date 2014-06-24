@@ -20,7 +20,6 @@ import org.xlsx4j.sml.STCellType;
 import org.xlsx4j.sml.Sheet;
 import org.xlsx4j.sml.Workbook;
 
-import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 import com.nc.kmr.localize.estimator.util.ExcelUtils;
 
 public class XLSXFileProcessor extends AbstractExcelFileProcessor {
@@ -108,7 +107,7 @@ public class XLSXFileProcessor extends AbstractExcelFileProcessor {
 	}
 
 	@Override
-	public List<String> process() throws InvalidInputException {
+	public List<String> process() {
 		content = new ArrayList<String>();
 		
 		if(!ready || targets == null || range == null) {

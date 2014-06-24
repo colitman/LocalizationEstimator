@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.nc.kmr.localize.estimator.filefilter.AllSupportedFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.IniFileFilter;
+import com.nc.kmr.localize.estimator.filefilter.PPTFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.PropertiesFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSFileFilter;
 import com.nc.kmr.localize.estimator.filefilter.XLSXFileFilter;
@@ -20,6 +21,7 @@ public class FileFilterTest extends TestCase {
 	private File folder = new File("tmp/folder");
 	private File fXLS = new File("sample.xls");
 	private File fXLSX = new File("sample.xlsx");
+	private File fPPT = new File("sample.ppt");
 	private File fProp = new File("sample.properties");
 	private File fINI = new File("sample.ini");
 	private File fLNG = new File("sample.lng");
@@ -30,6 +32,7 @@ public class FileFilterTest extends TestCase {
 		folder.mkdirs();
 		assertTrue(".xls files are not accepted", ff.accept(fXLS));
 		assertTrue(".xlsx files are not accepted", ff.accept(fXLSX));
+		assertTrue(".ppt files are not accepted", ff.accept(fPPT));
 		assertTrue(".properties files are not accepted", ff.accept(fProp));
 		assertTrue(".ini files are not accepted", ff.accept(fINI));
 		assertTrue(".lng files are not accepted", ff.accept(fLNG));
@@ -43,6 +46,7 @@ public class FileFilterTest extends TestCase {
 		folder.mkdirs();
 		assertTrue(".xls files are not accepted", ff.accept(fXLS));
 		assertFalse(".xlsx files are accepted", ff.accept(fXLSX));
+		assertFalse(".ppt files are accepted", ff.accept(fPPT));
 		assertFalse(".properties files are accepted", ff.accept(fProp));
 		assertFalse(".ini files are accepted", ff.accept(fINI));
 		assertFalse(".lng files are accepted", ff.accept(fLNG));
@@ -56,6 +60,21 @@ public class FileFilterTest extends TestCase {
 		folder.mkdirs();
 		assertFalse(".xls files are accepted", ff.accept(fXLS));
 		assertTrue(".xlsx files are not accepted", ff.accept(fXLSX));
+		assertFalse(".ppt files are accepted", ff.accept(fPPT));
+		assertFalse(".properties files are accepted", ff.accept(fProp));
+		assertFalse(".ini files are accepted", ff.accept(fINI));
+		assertFalse(".lng files are accepted", ff.accept(fLNG));
+		assertTrue("Folders are not accepted", ff.accept(folder));
+		assertTrue("Temporary test folder has not been deleted: " + folder.getAbsolutePath(), folder.delete());
+	}
+	
+	@Test
+	public void testPPT() {
+		ff = new PPTFileFilter();
+		folder.mkdirs();
+		assertFalse(".xls files are accepted", ff.accept(fXLS));
+		assertFalse(".xlsx files are accepted", ff.accept(fXLSX));
+		assertTrue(".ppt files are not accepted", ff.accept(fPPT));
 		assertFalse(".properties files are accepted", ff.accept(fProp));
 		assertFalse(".ini files are accepted", ff.accept(fINI));
 		assertFalse(".lng files are accepted", ff.accept(fLNG));
@@ -69,6 +88,7 @@ public class FileFilterTest extends TestCase {
 		folder.mkdirs();
 		assertFalse(".xls files are accepted", ff.accept(fXLS));
 		assertFalse(".xlsx files are accepted", ff.accept(fXLSX));
+		assertFalse(".ppt files are accepted", ff.accept(fPPT));
 		assertTrue(".properties files are not accepted", ff.accept(fProp));
 		assertFalse(".ini files are accepted", ff.accept(fINI));
 		assertFalse(".lng files are accepted", ff.accept(fLNG));
@@ -82,6 +102,7 @@ public class FileFilterTest extends TestCase {
 		folder.mkdirs();
 		assertFalse(".xls files are accepted", ff.accept(fXLS));
 		assertFalse(".xlsx files are accepted", ff.accept(fXLSX));
+		assertFalse(".ppt files are accepted", ff.accept(fPPT));
 		assertFalse(".properties files are accepted", ff.accept(fProp));
 		assertTrue(".ini files are not accepted", ff.accept(fINI));
 		assertTrue(".lng files are not accepted", ff.accept(fLNG));

@@ -12,7 +12,6 @@ import org.ini4j.Profile.Section;
 import org.ini4j.Wini;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
-import com.nc.kmr.localize.estimator.exception.InvalidInputException;
 import com.nc.kmr.localize.estimator.util.Utils;
 
 public class IniFileProcessor implements FileProcessor {
@@ -85,6 +84,13 @@ public class IniFileProcessor implements FileProcessor {
 		if(target == null) {
 			targets = null;
 			return false;
+		}
+		
+		for(int i = 0; i < target.length; i++) {
+			if(target[i] == null) {
+				targets = null;
+				return false;
+			}
 		}
 		
 		targets = target;
@@ -175,7 +181,7 @@ public class IniFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public List<String> process() throws InvalidInputException {
+	public List<String> process() {
 		content = new ArrayList<String>();
 		if(!ready || scope == null || targets == null) {
 			return content;

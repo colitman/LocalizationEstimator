@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.netcracker.kmr</groupId>
   <artifactId>LocalizationEstimator</artifactId>
-  <version>v.1.1</version>
+  <version>v.1.2</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>src\com\nc\kmr\localize\estimator\tests</testSourceDirectory>
