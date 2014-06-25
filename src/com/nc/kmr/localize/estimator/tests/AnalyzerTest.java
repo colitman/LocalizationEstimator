@@ -3,17 +3,32 @@ package com.nc.kmr.localize.estimator.tests;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.nc.kmr.localize.estimator.impl.analyze.Analyzer;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 
-import junit.framework.TestCase;
-
-public class AnalyzerTest extends TestCase{
+public class AnalyzerTest extends Assert {
 	
-	AnalyzerBuilder b;
-	Analyzer a;
+	private AnalyzerBuilder b;
+	private Analyzer a;
+	private List<String> data;
+	
+	@Before
+	public void setData() {
+		data = new ArrayList<String>();
+		
+		data.add("four 4");
+		data.add("три 3");
+		data.add("four 4 три 3");
+		data.add("три 4 four 3");
+		data.add("four 4");
+		data.add("три 3");
+		data.add("~!@#$%^&*()_+`-=/.?\\';:,<>№");
+		data.add("1 2 3 4 5 6 7 8 9 0 12 34 56");
+	}
 	
 	@Test
 	public void testInstantiation() {
@@ -48,18 +63,7 @@ public class AnalyzerTest extends TestCase{
 	}
 	
 	@Test
-	public void testAnalyzing() {
-		List<String> data = new ArrayList<String>();
-		
-		data.add("four 4");
-		data.add("три 3");
-		data.add("four 4 три 3");
-		data.add("три 4 four 3");
-		data.add("four 4");
-		data.add("три 3");
-		data.add("~!@#$%^&*()_+`-=/.?\\';:,<>№");
-		data.add("1 2 3 4 5 6 7 8 9 0 12 34 56");
-		
+	public void testAnalyzing() {		
 		b = new AnalyzerBuilder();
 		b.setShowUniquesStatistic(true);
 		

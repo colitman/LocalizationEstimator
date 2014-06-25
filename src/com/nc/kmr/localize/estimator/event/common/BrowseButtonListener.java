@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 
 import com.nc.kmr.localize.estimator.exception.FileReadingException;
 import com.nc.kmr.localize.estimator.exception.UnsupportedFileTypeException;
@@ -32,7 +35,14 @@ public class BrowseButtonListener implements ActionListener {
 				WizardFactory.showAnalyzeWizard(files);
 			} catch (ReflectiveOperationException ex) {
 				// TODO Add logging
-				ex.printStackTrace();
+				//ex.printStackTrace();
+				Throwable cause = ex.getCause();
+				if(cause.getClass() == OfficeXmlFileException.class) {
+					JOptionPane.showMessageDialog(null, "<html>Actual type of file does not correspond to the file extention.<br>"
+							+ "Perhaps you are trying to open MS Office 2007 file (or newer).<br>"
+							+ "Change the file extention to a proper one (.docx, .xlsx, .pptx, etc.) and try again."
+							+ "</html>", "Error while file read", JOptionPane.ERROR_MESSAGE);
+				}
 			} catch (UnsupportedFileTypeException e1) {
 				// TODO Add logging
 			} catch (FileReadingException e1) {

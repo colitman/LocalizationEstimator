@@ -1,24 +1,41 @@
 package com.nc.kmr.localize.estimator.tests;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import com.nc.kmr.localize.estimator.util.ExcelUtils;
 import com.nc.kmr.localize.estimator.util.Utils;
 
-import junit.framework.TestCase;
-
-public class UtilsTest extends TestCase {
+public class UtilsTest extends Assert {
+	
+	@Rule
+	public final TemporaryFolder tmp = new TemporaryFolder();
+	
+	private File txt;
+	private File noExt;
+	private File noName;
+	private File sevDots;
+	private File nullFile;
+	private File folder;
+	
+	@Before
+	public void prepareFiles() throws IOException {
+		txt = tmp.newFile("sample.txt");
+		noExt = tmp.newFile("sample");
+		noName = tmp.newFile(".txt");
+		sevDots = tmp.newFile("sample.doc.txt");
+		nullFile = null;
+		folder = tmp.newFolder("folder");
+	}
 	
 	@Test
 	public void testGetFileType() {
-		File txt = new File("sample.txt");
-		File noExt = new File("sample");
-		File noName = new File(".txt");
-		File sevDots = new File("sample.doc.txt");
-		File nullFile = null;
-		File folder = new File("tmp/folder");
 		
 		String txtActual = Utils.getFileType(txt);
 		String noExtActual = Utils.getFileType(noExt);

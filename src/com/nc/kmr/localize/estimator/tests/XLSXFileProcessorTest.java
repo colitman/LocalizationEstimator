@@ -1,10 +1,9 @@
 package com.nc.kmr.localize.estimator.tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class XLSXFileProcessorTest extends TestCase {
+public class XLSXFileProcessorTest extends Assert {
 	
 	@Test
 	public void testInstantiation() {

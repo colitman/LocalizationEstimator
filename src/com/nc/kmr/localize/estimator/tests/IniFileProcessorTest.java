@@ -2,23 +2,87 @@ package com.nc.kmr.localize.estimator.tests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.ini4j.InvalidFileFormatException;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.nc.kmr.localize.estimator.impl.IniFileProcessor;
 import com.nc.kmr.localize.estimator.util.Utils;
 
-import junit.framework.TestCase;
-
-public class IniFileProcessorTest extends TestCase {
+public class IniFileProcessorTest extends Assert {
 	
 	private IniFileProcessor p;
-	private File[] f_n = new File[]{new File("testData/test.lng")};
-	private File[] f_nf = new File[]{new File("test.lng")};
-	private File[] f_if = new File[]{new File("testData/test_if.lng")};
+	private File[] f_n;
+	private File[] f_nf;
+	private File[] f_if;
+	
+	private List<String> empty;
+	private List<String> no_cat;
+	private List<String> all;
+	private List<String> exclude;
+	private List<String> include;
+	
+	@Before
+	public void prepareFiles() throws IOException {
+		f_n = new File[]{new File("testData/test.lng")};
+		f_nf = new File[] {new File("test.lng")};
+		f_if = new File[]{new File("testData/test_if.lng")};
+	}
+	
+	@Before
+	public void setData() {
+		empty = new ArrayList<String>();
+		no_cat = new ArrayList<String>();
+		all = new ArrayList<String>();
+		exclude = new ArrayList<String>();
+		include = new ArrayList<String>();
+		
+		String string1 = "Author:";
+		String string2 = "KMR Sumy";
+		String string3 = "Version";
+		String string4 = "Licence:";
+		String string5 = "For internal NetCracker usage.";
+		String string6 = "Web:";
+		String string7 = "GitHub Repo:";
+		String string8 = "https://github.com/colitman/LocalizationEstimator";
+		String string9 = "UI translation by:";
+		String string10 = "Dmitry Romenskiy";
+		String string11 = "Feel free to send bug reports and improvement requests";
+		
+		no_cat.add("English");
+		no_cat.add("24-06-2014");
+		no_cat.add("0.1");
+		
+		all.add(string1);
+		all.add(string2);
+		all.add(string3);
+		all.add(string4);
+		all.add(string5);
+		all.add(string6);
+		all.add(string7);
+		all.add(string8);
+		all.add(string9);
+		all.add(string10);
+		all.add(string11);
+		
+		exclude.add(string1);
+		exclude.add(string2);
+		exclude.add(string3);
+		exclude.add(string4);
+		exclude.add(string6);
+		exclude.add(string7);
+		exclude.add(string11);
+		
+		include.add(string5);
+		include.add(string8);
+		include.add(string9);
+		include.add(string10);
+	}
 	
 	@Test
 	public void testCorrectInstantiation() {
@@ -102,13 +166,6 @@ public class IniFileProcessorTest extends TestCase {
 	
 	@Test
 	public void testProcessing() {
-		List<String> empty = new ArrayList<String>();
-		List<String> no_cat = new ArrayList<String>();
-		List<String> all = new ArrayList<String>();
-		List<String> exclude = new ArrayList<String>();
-		List<String> include = new ArrayList<String>();
-		
-		fillArrays(no_cat, all, exclude, include);
 		
 		p = new IniFileProcessor(f_nf);
 		assertEquals("Empty list should be returned if processor is not ready", empty, p.process());
@@ -179,48 +236,5 @@ public class IniFileProcessorTest extends TestCase {
 		assertEquals("Incorrect number of recognized entries", 4, p.process().size());
 		assertEquals("Retrieved data discrepancy", include, p.process());
 		
-	}
-
-	private void fillArrays(List<String> no_cat, List<String> all, List<String> exclude, List<String> include) {
-		String string1 = "Author:";
-		String string2 = "KMR Sumy";
-		String string3 = "Version";
-		String string4 = "Licence:";
-		String string5 = "For internal NetCracker usage.";
-		String string6 = "Web:";
-		String string7 = "GitHub Repo:";
-		String string8 = "https://github.com/colitman/LocalizationEstimator";
-		String string9 = "UI translation by:";
-		String string10 = "Dmitry Romenskiy";
-		String string11 = "Feel free to send bug reports and improvement requests";
-		
-		no_cat.add("English");
-		no_cat.add("24-06-2014");
-		no_cat.add("0.1");
-		
-		all.add(string1);
-		all.add(string2);
-		all.add(string3);
-		all.add(string4);
-		all.add(string5);
-		all.add(string6);
-		all.add(string7);
-		all.add(string8);
-		all.add(string9);
-		all.add(string10);
-		all.add(string11);
-		
-		exclude.add(string1);
-		exclude.add(string2);
-		exclude.add(string3);
-		exclude.add(string4);
-		exclude.add(string6);
-		exclude.add(string7);
-		exclude.add(string11);
-		
-		include.add(string5);
-		include.add(string8);
-		include.add(string9);
-		include.add(string10);
 	}
 }

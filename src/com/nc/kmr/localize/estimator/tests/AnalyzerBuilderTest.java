@@ -2,14 +2,13 @@ package com.nc.kmr.localize.estimator.tests;
 
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.nc.kmr.localize.estimator.impl.analyze.Analyzer;
 import com.nc.kmr.localize.estimator.impl.analyze.AnalyzerBuilder;
 
-import junit.framework.TestCase;
-
-public class AnalyzerBuilderTest extends TestCase {
+public class AnalyzerBuilderTest extends Assert {
 	
 	AnalyzerBuilder b;
 	Analyzer a;

@@ -11,6 +11,7 @@ import org.apache.poi.hslf.model.Slide;
 import org.apache.poi.hslf.model.TextRun;
 import org.apache.poi.hslf.record.TextHeaderAtom;
 import org.apache.poi.hslf.usermodel.SlideShow;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 
 import com.nc.kmr.localize.estimator.FileProcessor;
 import com.nc.kmr.localize.estimator.util.Utils;
@@ -51,6 +52,10 @@ public class PPTFileProcessor implements FileProcessor {
 		} catch (IOException e) {
 			// TODO Add logging
 			notReadyException = e;
+		} catch (OfficeXmlFileException e) {
+			// TODO Add logging
+			notReadyException = e;
+			throw new OfficeXmlFileException(e.getMessage());
 		}
 	}
 
